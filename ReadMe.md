@@ -1,6 +1,9 @@
 -   [COVID-19 model](#covid-19-model)
 -   [Model Calibration](#model-calibration)
     -   [Stochastic simulation](#stochastic-simulation)
+    -   [Studying the effects of different population responses to
+        government
+        actions.](#studying-the-effects-of-different-population-responses-to-government-actions.)
     -   [Studying the effects of different percentages of asyntomatic
         individuals.](#studying-the-effects-of-different-percentages-of-asyntomatic-individuals.)
 -   [References](#references)
@@ -67,7 +70,8 @@ described in supplementary material.
 &lt;/p&gt;
 </div>
 
-### Stochastic simulation
+Stochastic simulation
+---------------------
 
 <img src="./Figures/StochMedianDiff-1.png" alt="\label{fig:DailyInfect}"  />
 <p class="caption">
@@ -79,8 +83,10 @@ simulation. The stack bars report the undetected infected individuals
 hospitalized infected (blue). The red line outlines the trend of the
 infected cases from surveillance data. The surveillance data contains
 measurements error for two days, causing a negative infect count for
-such days. \#\# Studying the effects of different population responses
-to government actions.
+such days.
+
+Studying the effects of different population responses to government actions.
+-----------------------------------------------------------------------------
 
 <img src="./Figures/FutureComulativeInfects-1.png" alt="\label{fig:AlphaVar}"  />
 <p class="caption">
