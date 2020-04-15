@@ -1,29 +1,5 @@
----
-title: "EpiMod: COVID-19"
-author: "Beccuti Marco, Castagno Paolo, Pernice Simone"
-output: 
-  md_document:
-    toc: true
-    toc_depth: 3
-bibliography: biblio.bib  
-vignette: >
-  %\VignetteIndexEntry{my-vignette}
-  %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
----
-  
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-  
-  )
-```
-  
-  
-  
-# COVID-19 model
 
+# COVID-19 model
 
 # Starting
 
@@ -38,9 +14,9 @@ According to this scenario and to \cite{IstatPiedmont}, we assumed that the init
 Moreover, the availability of social interaction for the infectious sub-classes is fixed to $\eta_u=1$, $\eta_q=0.3$ and $\eta_h=0.1$. 
 Finally,  the rates at which an exposed individual with age $i$ becomes  an infected individual in sub-class $\nu$ (i.e., $\lambda_{i,\nu}$) are derived by the surveillance data as described in supplementary material.
 
-<object data="http://yoursite.com/the.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="http://yoursite.com/the.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
+<object data="https://github.com/qBioTurin/COVID-19/blob/master/Figures/Comulatives.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="https://github.com/qBioTurin/COVID-19/blob/master/Figures/Comulatives.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://github.com/qBioTurin/COVID-19/blob/master/Figures/Comulatives.pdf">Download PDF</a>.</p>
     </embed>
 </object>
 
