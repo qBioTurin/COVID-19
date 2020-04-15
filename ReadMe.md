@@ -1,27 +1,80 @@
+<<<<<<< HEAD
+-   [COVID-19 model](#covid-19-model)
+-   [Starting](#starting)
+-   [Model Calibration](#model-calibration)
+-   [References](#references)
+
+COVID-19 model
+==============
+=======
 
 # COVID-19 model
+>>>>>>> 810cd06961b0bf546a885086883ed1710bb71cdd
 
-# Starting
+<img src="./Figures/SEIR-Model.png" alt="\label{fig:Pertussis_PN} SEIR model and surveillance data on Piedmont region.: (A) The age-dependent SEIR model. (B) The total infected cases distributed in the counties of the Piedmont region. (C) Distribution of quarantine infected (Iq), hospitalized infected  (Ih) and deaths (D) from February 24th to March 28th. The control strategies are reported below the bar graph."  />
+<p class="caption">
+ SEIR model and surveillance data on Piedmont region.: (A) The
+age-dependent SEIR model. (B) The total infected cases distributed in
+the counties of the Piedmont region. (C) Distribution of quarantine
+infected (Iq), hospitalized infected (Ih) and deaths (D) from February
+24th to March 28th. The control strategies are reported below the bar
+graph.
+</p>
 
-# Model Calibration
+Starting
+========
 
-The calibration phase was performed to fit the model outcomes with  the surveillance  Piedmont infection and death data (from  February 24\textsuperscript{st}  to April 1\textsuperscript{st})  using  squared  error  estimator  via  trajectory matching.  Hence, a global optimization algorithm, based on  \emph{generalized simulated annealing method}~\cite{GenSA}, was exploited to estimate 23 model parameters characterized by a high uncertainty due to their difficulty  of  being  empirically  measured.   
-In particular, 15 parameters represent the infection rates (i.e., $\beta_{i,j}$), three parameters reflect the governmental action strength and the related population response at time epoch $t$ (i.e., $\alpha(t)$ with $t\in \{\ \text{February 25\textsuperscript{th}},\text{March 8\textsuperscript{th}},  \text{March 21\textsuperscript{st}}\}$),
-%$\alpha(\text{February 25\textsuperscript{th}})=0.211, \, \alpha(\text{March 8\textsuperscript{th}})=0.549$ and $\alpha(\text{March %21\textsuperscript{st}})=0.738$)}, one parameter describes the intensity of the population response (i.e., $k$), and the remainders four parameters represent the  death rate for the hospitalized patients (i.e., $\sigma_i$, fixing $\sigma_1=0$).
- 
-Therefore, the model calibration was carried out considering the proportion between undetected and detected infected individuals (i.e., given by the sum of the quarantined and hospitalized infected individuals)  to be  one-to-one on average as reported in \cite{DiamondPrincess} (refer to Section S2 in the Supplementary Material for the definition of the  distribution of infected categories by age).
-According to this scenario and to \cite{IstatPiedmont}, we assumed that the initial system state is:  $S_1=733130, \, S_2=881208, \, S_3=1340552, \, S_4=1038395, \, S_5=363121, Iq_2=1, \, Iq_3=1,\,Iq_4=1, \, Iu_2=1, \, Iu_3=1, \, Iu_4=1$, while all the other compartments are set to zero.
-Moreover, the availability of social interaction for the infectious sub-classes is fixed to $\eta_u=1$, $\eta_q=0.3$ and $\eta_h=0.1$. 
-Finally,  the rates at which an exposed individual with age $i$ becomes  an infected individual in sub-class $\nu$ (i.e., $\lambda_{i,\nu}$) are derived by the surveillance data as described in supplementary material.
+Model Calibration
+=================
 
+<<<<<<< HEAD
+The calibration phase was performed to fit the model outcomes with the
+surveillance Piedmont infection and death data (from February 24 to
+April 1) using squared error estimator via trajectory matching. Hence, a
+global optimization algorithm, based on ~, was exploited to estimate 23
+model parameters characterized by a high uncertainty due to their
+difficulty of being empirically measured.  
+In particular, 15 parameters represent the infection rates (i.e.,
+*β*<sub>*i*, *j*</sub>), three parameters reflect the governmental
+action strength and the related population response at time epoch *t*
+(i.e., *α*(*t*) with
+$t\\in \\{\\ \\text{February 25\\textsuperscript{th}},\\text{March 8\\textsuperscript{th}}, \\text{March 21\\textsuperscript{st}}\\}$),
+%$\\alpha(\\text{February 25\\textsuperscript{th}})=0.211, \\, \\alpha(\\text{March 8\\textsuperscript{th}})=0.549$
+and $\\alpha(\\text{March %21\\textsuperscript{st}})=0.738$)}, one
+parameter describes the intensity of the population response (i.e.,
+*k*), and the remainders four parameters represent the death rate for
+the hospitalized patients (i.e., *σ*<sub>*i*</sub>, fixing
+*σ*<sub>1</sub> = 0).
+=======
 <object data="https://github.com/qBioTurin/COVID-19/blob/master/Figures/Comulatives.pdf" type="application/pdf" width="700px" height="700px">
     <embed src="https://github.com/qBioTurin/COVID-19/blob/master/Figures/Comulatives.pdf">
         <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://github.com/qBioTurin/COVID-19/blob/master/Figures/Comulatives.pdf">Download PDF</a>.</p>
     </embed>
 </object>
+>>>>>>> 810cd06961b0bf546a885086883ed1710bb71cdd
 
+Therefore, the model calibration was carried out considering the
+proportion between undetected and detected infected individuals (i.e.,
+given by the sum of the quarantined and hospitalized infected
+individuals) to be one-to-one on average as reported in (refer to
+Section S2 in the Supplementary Material for the definition of the
+distribution of infected categories by age). According to this scenario
+and to , we assumed that the initial system state is:
+*S*<sub>1</sub> = 733130, *S*<sub>2</sub> = 881208, *S*<sub>3</sub> = 1340552, *S*<sub>4</sub> = 1038395, *S*<sub>5</sub> = 363121, *I**q*<sub>2</sub> = 1, *I**q*<sub>3</sub> = 1, *I**q*<sub>4</sub> = 1, *I**u*<sub>2</sub> = 1, *I**u*<sub>3</sub> = 1, *I**u*<sub>4</sub> = 1,
+while all the other compartments are set to zero. Moreover, the
+availability of social interaction for the infectious sub-classes is
+fixed to *η*<sub>*u*</sub> = 1, *η*<sub>*q*</sub> = 0.3 and
+*η*<sub>*h*</sub> = 0.1. Finally, the rates at which an exposed
+individual with age *i* becomes an infected individual in sub-class *ν*
+(i.e., *λ*<sub>*i*, *ν*</sub>) are derived by the surveillance data as
+described in supplementary material.
 
+<<<<<<< HEAD
+References
+==========
+=======
 # References
   
 <div id="refs"></div>
   
+>>>>>>> 810cd06961b0bf546a885086883ed1710bb71cdd
