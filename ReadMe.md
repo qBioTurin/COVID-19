@@ -56,5 +56,7 @@ individual with age *i* becomes an infected individual in sub-class *ν*
 (i.e., *λ*<sub>*i*, *ν*</sub>) are derived by the surveillance data as
 described in supplementary material.
 
+![Image description](./Figures/Comulatives.pdf)
+
 References
 ==========
