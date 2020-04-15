@@ -69,7 +69,7 @@ described in supplementary material.
 
 ### Stochastic simulation
 
-<img src="./Figures/StochMedianDiff.pdf" alt="\label{fig:DailyInfect}"  />
+<img src="./Figures/StochMedianDiff-1.png" alt="\label{fig:DailyInfect}"  />
 <p class="caption">
 </p>
 
