@@ -1,23 +1,23 @@
 -   [COVID-19 model](#covid-19-model)
--   [Starting](#starting)
 -   [Model Calibration](#model-calibration)
+    -   [Stochastic simulation](#stochastic-simulation)
+    -   [Studying the effects of different percentages of asyntomatic
+        individuals.](#studying-the-effects-of-different-percentages-of-asyntomatic-individuals.)
 -   [References](#references)
 
 COVID-19 model
 ==============
 
-<img src="./Figures/SEIR-Model.png" alt="\label{fig:Pertussis_PN} SEIR model and surveillance data on Piedmont region.: (A) The age-dependent SEIR model. (B) The total infected cases distributed in the counties of the Piedmont region. (C) Distribution of quarantine infected (Iq), hospitalized infected  (Ih) and deaths (D) from February 24th to March 28th. The control strategies are reported below the bar graph."  />
+<img src="./Figures/SEIR-Model.png" alt="\label{fig:Pertussis_PN}"  />
 <p class="caption">
- SEIR model and surveillance data on Piedmont region.: (A) The
+</p>
+
+SEIR model and surveillance data on Piedmont region.: (A) The
 age-dependent SEIR model. (B) The total infected cases distributed in
 the counties of the Piedmont region. (C) Distribution of quarantine
 infected (Iq), hospitalized infected (Ih) and deaths (D) from February
 24th to March 28th. The control strategies are reported below the bar
-graph.
-</p>
-
-Starting
-========
+graph. \# Starting
 
 Model Calibration
 =================
@@ -62,25 +62,58 @@ described in supplementary material.
 &lt;/p&gt;
 </div>
 <div class="figure" style="text-align: center">
-<img src="./Figures/FutureComulativeInfects-1.png" alt="\"  />
-<p class="caption">
-&lt;/p&gt;
-</div>
-<div class="figure" style="text-align: center">
 <img src="./Figures/InfectsHistALL-1.png" alt="\"  />
 <p class="caption">
 &lt;/p&gt;
 </div>
-<div class="figure" style="text-align: center">
-<img src="./Figures/StochPlot-1.png" alt="\"  />
+
+### Stochastic simulation
+
+<img src="./Figures/StochMedianDiff.pdf" alt="\label{fig:DailyInfect}"  />
 <p class="caption">
-&lt;/p&gt;
-</div>
-<div class="figure" style="text-align: center">
-<img src="./Figures/ViolinPlot-1.png" alt="\"  />
+</p>
+
+The daily evolution of infected individuals computed by the stochastic
+simulation. The stack bars report the undetected infected individuals
+(orange), the quarantine infected individuals(light blue), and
+hospitalized infected (blue). The red line outlines the trend of the
+infected cases from surveillance data. The surveillance data contains
+measurements error for two days, causing a negative infect count for
+such days. \#\# Studying the effects of different population responses
+to government actions.
+
+<img src="./Figures/FutureComulativeInfects-1.png" alt="\label{fig:AlphaVar}"  />
 <p class="caption">
-&lt;/p&gt;
-</div>
+</p>
+
+One-month forecast of the cumulative infected cases
+($\\sum\_{i=1}^5 Iq\_{i}$ + *I**h*<sub>*i*</sub>) obtained by
+deterministic simulation. The traces were divided in four ranges based
+on the $\\alpha(\\text{March 21\\textsuperscript{st}})$ values. The blue
+trace corresponds to the cumulative evolution of the infected cases
+obtained considering the three *α* estimated by the surveillance data
+collected.
+
+<img src="./Figures/StochFutComDistribution-1.png" alt="\label{fig:Stoch2} "  />
+<p class="caption">
+</p>
+
+Density distribution at May 1 of the infected cases considering three
+values of $\\alpha(\\text{March 21\\textsuperscript{st}})$. The green
+lines represent their median values.
+
+Studying the effects of different percentages of asyntomatic individuals.
+-------------------------------------------------------------------------
+
+<img src="./Figures/ViolinPlot-1.png" alt="\label{fig:Boxplot}"  />
+<p class="caption">
+</p>
+
+The number of detected cases from February, 21$\\textsuperscript{st}$ to
+May, 1$\\textsuperscript{st}$. In each time point, three boxes report
+the infected cases distribution for the three scenario considered:
+one-to-one, one-to-one-half and one-to-ten scenarios colored in yellow,
+green and purple, respectively.
 
 References
 ==========
