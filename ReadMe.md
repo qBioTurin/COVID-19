@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 -   [COVID-19 model](#covid-19-model)
 -   [Starting](#starting)
 -   [Model Calibration](#model-calibration)
@@ -6,10 +5,6 @@
 
 COVID-19 model
 ==============
-=======
-
-# COVID-19 model
->>>>>>> 810cd06961b0bf546a885086883ed1710bb71cdd
 
 <img src="./Figures/SEIR-Model.png" alt="\label{fig:Pertussis_PN} SEIR model and surveillance data on Piedmont region.: (A) The age-dependent SEIR model. (B) The total infected cases distributed in the counties of the Piedmont region. (C) Distribution of quarantine infected (Iq), hospitalized infected  (Ih) and deaths (D) from February 24th to March 28th. The control strategies are reported below the bar graph."  />
 <p class="caption">
@@ -27,7 +22,6 @@ Starting
 Model Calibration
 =================
 
-<<<<<<< HEAD
 The calibration phase was performed to fit the model outcomes with the
 surveillance Piedmont infection and death data (from February 24 to
 April 1) using squared error estimator via trajectory matching. Hence, a
@@ -45,13 +39,6 @@ parameter describes the intensity of the population response (i.e.,
 *k*), and the remainders four parameters represent the death rate for
 the hospitalized patients (i.e., *σ*<sub>*i*</sub>, fixing
 *σ*<sub>1</sub> = 0).
-=======
-<object data="https://github.com/qBioTurin/COVID-19/blob/master/Figures/Comulatives.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="https://github.com/qBioTurin/COVID-19/blob/master/Figures/Comulatives.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://github.com/qBioTurin/COVID-19/blob/master/Figures/Comulatives.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
->>>>>>> 810cd06961b0bf546a885086883ed1710bb71cdd
 
 Therefore, the model calibration was carried out considering the
 proportion between undetected and detected infected individuals (i.e.,
@@ -69,12 +56,5 @@ individual with age *i* becomes an infected individual in sub-class *ν*
 (i.e., *λ*<sub>*i*, *ν*</sub>) are derived by the surveillance data as
 described in supplementary material.
 
-<<<<<<< HEAD
 References
 ==========
-=======
-# References
-  
-<div id="refs"></div>
-  
->>>>>>> 810cd06961b0bf546a885086883ed1710bb71cdd
