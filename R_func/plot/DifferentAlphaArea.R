@@ -156,6 +156,8 @@ pl2<-  ggplot( data=InfoTracesDataframe[which(InfoTracesDataframe$Ages=="Comulat
   scale_x_date( breaks = seq(as.Date("2020/02/21"),as.Date("2020/05/01"), by = "week"), date_labels = "%b-%d")+
   scale_y_continuous(breaks= scales::pretty_breaks(n = 8))
 
+ggsave(plot = pl2,filename = "Plot/diffalpha.pdf",
+       dpi = 400, width = 20, height = 10,device = "pdf")
 
 
 ##### split for each age class

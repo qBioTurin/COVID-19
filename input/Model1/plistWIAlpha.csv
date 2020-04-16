@@ -1,0 +1,26 @@
+i; init; init_m; n_file="/home/docker/data/input/names.RDS"; perc.undetected = "1:1"
+g; c_rates; beta.generation; min=0; max=1
+g; k; k_calib; n=1
+g; alpha; alpha; alpha_variation=TRUE
+g; eta; eta;  e = c(0, .7, .9)
+g; l_rates; l_rates; p=c(.9,.7,.5,.3,.1)
+p; D_a_a0_sy_s2; 0
+p; D_a_a1_sy_s2; Death; n=1
+p; D_a_a2_sy_s2; Death; n=2
+p; D_a_a3_sy_s2; Death; n=3
+p; D_a_a4_sy_s2; Death; n=4
+p; R_a_a0_sy_s0; 0.2
+p; R_a_a1_sy_s0; 0.2
+p; R_a_a2_sy_s0; 0.2
+p; R_a_a3_sy_s0; 0.2
+p; R_a_a4_sy_s0; 0.2
+p; R_a_a0_sy_s1; 0.2
+p; R_a_a1_sy_s1; 0.2
+p; R_a_a2_sy_s1; 0.2
+p; R_a_a3_sy_s1; 0.2
+p; R_a_a4_sy_s1; 0.2
+p; R_a_a0_sy_s2; 0.2
+p; R_a_a1_sy_s2; 0.2
+p; R_a_a2_sy_s2; 0.2
+p; R_a_a3_sy_s2; 0.2
+p; R_a_a4_sy_s2; 0.2

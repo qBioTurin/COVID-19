@@ -25,10 +25,11 @@ knitr::opts_chunk$set(
 # COVID-19 model
 
 
-```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:Pertussis_PN} SEIR model and surveillance data on Piedmont region.: (A) The age-dependent SEIR model. (B) The total infected cases distributed in the counties of the Piedmont region. (C) Distribution of quarantine infected (Iq), hospitalized infected  (Ih) and deaths (D) from February 24th to March 28th. The control strategies are reported below the bar graph.',  fig.height = 4, fig.width = 6, fig.pos='H'}
+```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:Pertussis_PN}',  fig.height = 4, fig.width = 6, fig.pos='H'}
 
 knitr::include_graphics("./Figures/SEIR-Model.png")
 ```
+SEIR model and surveillance data on Piedmont region.: (A) The age-dependent SEIR model. (B) The total infected cases distributed in the counties of the Piedmont region. (C) Distribution of quarantine infected (Iq), hospitalized infected  (Ih) and deaths (D) from February 24th to March 28th. The control strategies are reported below the bar graph.
 # Starting
 
 # Model Calibration
@@ -42,8 +43,49 @@ According to this scenario and to \cite{IstatPiedmont}, we assumed that the init
 Moreover, the availability of social interaction for the infectious sub-classes is fixed to $\eta_u=1$, $\eta_q=0.3$ and $\eta_h=0.1$. 
 Finally,  the rates at which an exposed individual with age $i$ becomes  an infected individual in sub-class $\nu$ (i.e., $\lambda_{i,\nu}$) are derived by the surveillance data as described in supplementary material.
 
+```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\',  fig.height = 4, fig.width = 6, fig.pos='H'}
+
+knitr::include_graphics("./Figures/Comulatives-1.png")
+```
+
+```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\',  fig.height = 4, fig.width = 6, fig.pos='H'}
+
+knitr::include_graphics("./Figures/InfectsHistALL-1.png")
+```
 
 
+## Stochastic simulation
+
+```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:DailyInfect}',  fig.height = 4, fig.width = 6, fig.pos='H'}
+
+knitr::include_graphics("./Figures/StochMedianDiff-1.png")
+```
+ 
+The daily evolution of infected individuals computed by the stochastic simulation. The stack bars report the undetected infected individuals (orange), the quarantine infected individuals(light blue), and hospitalized infected (blue). The red line outlines the trend of the infected cases from surveillance data. The surveillance data contains measurements error for two days, causing a negative infect count for such days.
+
+## Studying the effects of different population responses to government actions.
+
+```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:AlphaVar}',  fig.height = 4, fig.width = 6, fig.pos='H'}
+
+knitr::include_graphics("./Figures/FutureComulativeInfects-1.png")
+```
+
+One-month forecast of the cumulative infected cases ($\sum_{i=1}^5 Iq_{i}$ + $Ih_{i}$) obtained by deterministic simulation. The traces were divided in four ranges based on the $\alpha(\text{March 21\textsuperscript{st}})$ values. The blue trace corresponds to the cumulative evolution of the infected cases obtained considering  the three $\alpha$ estimated by the surveillance data collected.
+
+```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:Stoch2} ',  fig.height = 4, fig.width = 6, fig.pos='H'}
+
+knitr::include_graphics("./Figures/StochFutComDistribution-1.png")
+```
+
+Density distribution at May 1\textsuperscript{st} of the infected cases considering three values of $\alpha(\text{March 21\textsuperscript{st}})$. The green lines represent their median values.
+
+## Studying the effects of different percentages of asyntomatic individuals.
+
+```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:Boxplot}',  fig.height = 4, fig.width = 6, fig.pos='H'}
+
+knitr::include_graphics("./Figures/ViolinPlot-1.png")
+```
+ The number of detected cases from February, 21$\textsuperscript{st}$ to May, 1$\textsuperscript{st}$. In each time point, three boxes report the infected cases distribution for the three scenario considered: one-to-one, one-to-one-half and one-to-ten scenarios colored in yellow, green and purple, respectively.
 
 # References
   

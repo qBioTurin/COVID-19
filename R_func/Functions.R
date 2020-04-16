@@ -26,12 +26,23 @@ init_m <- function(n_file, x=NULL,perc.undetected=NULL)
   yini["s_a3"]<-1038395
   yini["s_a4"]<-363121
   yini[c("i_a4_s1","i_a3_s1","i_a2_s1")]<-1
-  if(!is.null(perc.undetected)) yini[c("i_a4_s0","i_a3_s0","i_a2_s0")]<- 1
+  if(perc.undetected =="1:1"){
+    yini[c("i_a4_s0","i_a3_s0","i_a2_s0")]<- 1
+  }else if(perc.undetected =="1:1.4")
+  {
+    yini[c("i_a4_s0","i_a3_s0","i_a2_s0")]<- 1.4
+  }else if(perc.undetected =="1:10")
+  {
+    yini[c("i_a4_s0","i_a3_s0","i_a2_s0")]<- 10
+  }else{
+    warning("Error: no match with the undected individuals!!!")
+  }
+  
   
   return(matrix(yini, ncol = 1))
 }
 
-alpha <- function(alpha_variation, x=NULL)
+alpha <- function(alpha_variation, x=NULL, perc.undetected =  "1:1")
 {
   #### from 21 to 25 Febb  alpha=0
   #### from 26 to 08/03  alpha=0.3
@@ -47,17 +58,19 @@ alpha <- function(alpha_variation, x=NULL)
   }else
   {
     #
-    a<-c(rep(0,5),rep(x[21],12),rep(x[22],13),rep(x[23],60))
+    if(perc.undetected !="1:1"){ xtmp<-x[17:19] }else{ xtmp<-x[21:23] }
+    
+    a<-c(rep(0,5),rep(xtmp[1],12),rep(xtmp[2],13),rep(xtmp[3],60))
     
     if(!is.null(alpha_variation))
     {
       if(is.numeric(alpha_variation)){
         al<-alpha_variation
       }else{
-        al<-runif(1,min=x[22],max = .95)
+        al<-runif(1,min=xtmp[2],max = .95)
       }
       
-      a<-c(rep(0,5),rep(x[21],12),rep(x[22], 13),rep(al, 60))
+      a<-c(rep(0,5),rep(xtmp[1],12),rep(xtmp[2], 13),rep(al, 60))
     }
     
   }
@@ -71,14 +84,21 @@ eta<-function(e, x=NULL)
   return(matrix(e, ncol = 1))
 }
 
-Death<-function(n,x=NULL)
+Death<-function(n,x=NULL,perc.undetected =  "1:1",deathValue = NULL)
 {
   if(!is.null(x))
   {
-    if(n==1){d=x[16]}
-    if(n==2){d=x[17]}
-    if(n==3){d=x[18]}
-    if(n==4){d=x[19]}
+    if(perc.undetected !="1:1"){ 
+      if(n==1){d=x[16]}
+      if(n==2){d=x[17]}
+      if(n==3){d=x[18]}
+      if(n==4){d=x[19]}
+    }else{ 
+      if(!is.null(deathValue)){
+        d = deathValue
+      }else{warning("ERROR: please set a death rate!! ")}
+    }
+    
   }
   else{
     if(n==1){d=runif(1,min=.0001, max=.002) }
@@ -89,17 +109,22 @@ Death<-function(n,x=NULL)
   return(d)
 }
 
-k_calib<-function(n,x=NULL){
-  return(x[20])
+k_calib<-function(x=NULL,perc.undetected ="1:1"){
+  if(perc.undetected !="1:1"){ 
+    return( x[20] )
+  }else{ 
+    return( x[16] )
+  }
 }
 
 l_rates<-function(p,x=NULL)
 {
   prob<-matrix(c(p,1-p,1-p),ncol=3)
-
+  
   # updated at 28/03 
-  #perc.H <- 0.6152938
-  perc.H <- 0.4605658
+  # perc.H <- 0.4605658
+  # updated at 14/04 (mean value) 
+  perc.H <- 0.537
   perc.I <- 1-perc.H
   
   prob[,2]<-prob[,2]*perc.I

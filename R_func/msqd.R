@@ -18,7 +18,11 @@ msqd<-function(reference, output)
   infect_cases[infect_cases<1]=1
   Death_ages[Death_ages<1]=1
   
-  diff.Infect <- sum( colSums( abs(( Infect - infect_cases )/infect_cases) )*c(1.1,1,1,1)  +  colSums(abs((Death - Death_ages)/Death_ages) ) ) 
+  if(length(infect_cases[,1]) != length(Infect[,1]) ){
+    diff.Infect <- 10^9   ### it means that the lsoda resolution had some problems
+  }else{
+    diff.Infect <- sum( rowSums( ( Infect - infect_cases )^2/infect_cases )  +  rowSums( ( (Death - Death_ages )^2/Death_ages) ) ) 
+  }
   
   return(diff.Infect)
 }
