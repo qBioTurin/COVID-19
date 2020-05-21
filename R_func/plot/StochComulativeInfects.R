@@ -2,10 +2,15 @@ id=1
 library(ggplot2)
 library(cowplot)
 
+trace=as.data.frame(read.csv( paste0("./",folder,"/COVID-19Piemonte-analysys-1.trace"), sep = ""))
 
-trace=as.data.frame(read.csv( "./Results/Model1/results_model_analysisStoch81/COVID-19Piemonte-analysys-1.trace", sep = ""))
 
-
+trace$c_Lq_a0  <- trace$c_SW_a0 + trace$c_Lq_a0 
+# trace$c_Lu_a0  <- trace$c_Lu_a0 - trace$c_SW_a0 
+trace$c_Lq_a1  <- trace$c_SW_a1 + trace$c_Lq_a1 
+# trace$c_Lu_a1  <- trace$c_Lu_a1 - trace$c_SW_a1
+trace$c_Lq_a2  <- trace$c_SW_a2 + trace$c_Lq_a2 
+# trace$c_Lu_a2  <- trace$c_Lu_a2 - trace$c_SW_a2
 ### deleting if there are points beyond te final time
 n_sim<-unique(table(trace$Time))
 
@@ -22,12 +27,17 @@ reference <- as.data.frame(t(read.csv("input/reference.csv",
                                       sep = "")))
 
 
-death_percentages<-c(0.007,0.046,.375,.572)
+age_classes<-3
 
-Death_ages <-as.data.frame(matrix((reference[,6]),ncol=1) %*% matrix(death_percentages,ncol=4))
+# updated at 16/04 with tree age classes
+p<-.252+.305+.24
+death_percentages<-c(1-p,p)
+
+Death_ages <-as.data.frame(matrix((reference[,age_classes+1]),ncol=1) %*% matrix(death_percentages,ncol=(age_classes-1)) )
 
 
-reference<- data.frame(Time=trace$Time[0:length(reference$V1)], reference[,1:5],rowSums(reference[,1:5]),Death_ages,reference[,6])
+reference<- data.frame(Time=trace$Time[0:length(reference$V1)], reference[,1:age_classes],rowSums(reference[,1:age_classes]),Death_ages,reference[,age_classes+1])
+
 hyst <- reference[which(reference$Time >= "2020-02-24" ),]
 
 Time <- seq(as.Date("2020/02/21"), by = "day", length.out = length(unique(trace$Time))) 
@@ -35,16 +45,13 @@ Time <- seq(as.Date("2020/02/21"), by = "day", length.out = length(unique(trace$
 y_names <-names(trace)
 # Get the indexes of the places to consider
 
+a0=c("c_Lq_a0","c_Lh_a0")
+a1=c("c_Lq_a1","c_Lh_a1")
+a2=c("c_Lq_a2","c_Lh_a2")
+d=c("d_a1","d_a2")
+l<-list(a0,a1,a2,c(a0,a1,a2),"d_a1","d_a2",d)
 
-a0=c("c_Li_a0","c_Lh_a0")
-a1=c("c_Li_a1","c_Lh_a1")
-a2=c("c_Li_a2","c_Lh_a2")
-a3=c("c_Li_a3","c_Lh_a3")
-a4=c("c_Li_a4","c_Lh_a4")
-d=c("d_a1","d_a2","d_a3","d_a4")
-l<-list(a0,a1,a2,a3,a4,c(a0,a1,a2,a3,a4),"d_a1","d_a2","d_a3","d_a4",d)
-
-categ=6
+categ=age_classes+1
 
 ltemp<-l[[categ]]
   
@@ -87,8 +94,8 @@ ltemp<-l[[categ]]
     median <- apply(dat,2,median)
     sd<-apply(dat,2,sd)
     # Compute the "confidence interval" for the mean
-    # up<-mean+(qnorm(.975))*sd/sqrt(n_sim)
-    # lp<-mean-(qnorm(.975))*sd/sqrt(n_sim)
+    # up<-mean+(qnorm(.99))*sd/sqrt(n_sim)
+    # lp<-mean-(qnorm(.99))*sd/sqrt(n_sim)
     up<-apply(dat,2,quantile,prob=.75)
     lp<-apply(dat,2,quantile,prob=.25)
     
@@ -115,6 +122,7 @@ plend<-ggplot( )+
      geom_line(data = sim_traces,aes(x=Time,y=infected,group=IDsim,col="Simulated data"),alpha=.7)+
      geom_line(data = hyst, aes(x=Time,y=hyst[,categ+1], col="Survey data")) +
      geom_line(data = stats, aes(x=days,y=median, col="Median"))+
+  #geom_line(data = stats, aes(x=days,y=median, col="Mean"))+
      geom_ribbon(data=Meanarea, 
                  aes(x=time,ymin=lp,ymax=up,col="Standard Deviation"), fill="green", alpha=.1,linetype="dashed",show.legend=FALSE)+
      scale_color_manual("",values=c("Survey data"="red","Median"="darkgreen","Simulated data"="grey","Standard Deviation"="green"),
@@ -180,4 +188,7 @@ pl22<- ggplot( )+
     annotate("text",x=as.Date("2020-03-22"), label="\n Third public restriction", y= Inf, colour="#47606c", size=6,hjust = 0)+
     scale_x_date( breaks = seq(as.Date("2020/02/21"),as.Date("2020/05/01"), by = "week"), date_labels = "%b-%d")+
     scale_y_continuous(breaks= scales::pretty_breaks(n = 8))
-  
+
+ggsave(plot = plend,filename = paste0("Plot/StochSimulation",nameplot,".pdf"),
+       dpi = 400, width = 20, height = 8,device = "pdf")
+

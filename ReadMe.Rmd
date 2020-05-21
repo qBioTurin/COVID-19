@@ -27,21 +27,17 @@ knitr::opts_chunk$set(
 
 ```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:Pertussis_PN}',  fig.height = 4, fig.width = 6, fig.pos='H'}
 
-knitr::include_graphics("./Figures/SEIR-Model.png")
+knitr::include_graphics("./Figures/Model.png")
 ```
-SEIR model and surveillance data on Piedmont region.: (A) The age-dependent SEIR model. (B) The total infected cases distributed in the counties of the Piedmont region. (C) Distribution of quarantine infected (Iq), hospitalized infected  (Ih) and deaths (D) from February 24th to March 28th. The control strategies are reported below the bar graph.
-# Starting
+SEIRS model and surveillance data on Piedmont region.: (A) The age-dependent SEIRS model. (B) The total infected cases distributed in the counties of the Piedmont region. (C) Distribution of quarantine infected (Iq), hospitalized infected  (Ih) and deaths (D) from February 24th to May 2nd. The control strategies are reported below the bar graph.
+
+# Repository structure
 
 # Model Calibration
 
-The calibration phase was performed to fit the model outcomes with  the surveillance  Piedmont infection and death data (from  February 24\textsuperscript{st}  to April 1\textsuperscript{st})  using  squared  error  estimator  via  trajectory matching.  Hence, a global optimization algorithm, based on  \emph{generalized simulated annealing method}~\cite{GenSA}, was exploited to estimate 23 model parameters characterized by a high uncertainty due to their difficulty  of  being  empirically  measured.   
-In particular, 15 parameters represent the infection rates (i.e., $\beta_{i,j}$), three parameters reflect the governmental action strength and the related population response at time epoch $t$ (i.e., $\alpha(t)$ with $t\in \{\ \text{February 25\textsuperscript{th}},\text{March 8\textsuperscript{th}},  \text{March 21\textsuperscript{st}}\}$),
-%$\alpha(\text{February 25\textsuperscript{th}})=0.211, \, \alpha(\text{March 8\textsuperscript{th}})=0.549$ and $\alpha(\text{March %21\textsuperscript{st}})=0.738$)}, one parameter describes the intensity of the population response (i.e., $k$), and the remainders four parameters represent the  death rate for the hospitalized patients (i.e., $\sigma_i$, fixing $\sigma_1=0$).
- 
-Therefore, the model calibration was carried out considering the proportion between undetected and detected infected individuals (i.e., given by the sum of the quarantined and hospitalized infected individuals)  to be  one-to-one on average as reported in \cite{DiamondPrincess} (refer to Section S2 in the Supplementary Material for the definition of the  distribution of infected categories by age).
-According to this scenario and to \cite{IstatPiedmont}, we assumed that the initial system state is:  $S_1=733130, \, S_2=881208, \, S_3=1340552, \, S_4=1038395, \, S_5=363121, Iq_2=1, \, Iq_3=1,\,Iq_4=1, \, Iu_2=1, \, Iu_3=1, \, Iu_4=1$, while all the other compartments are set to zero.
-Moreover, the availability of social interaction for the infectious sub-classes is fixed to $\eta_u=1$, $\eta_q=0.3$ and $\eta_h=0.1$. 
-Finally,  the rates at which an exposed individual with age $i$ becomes  an infected individual in sub-class $\nu$ (i.e., $\lambda_{i,\nu}$) are derived by the surveillance data as described in supplementary material.
+The calibration phase was performed to fit the model outcomes with  the surveillance  Piedmont infection and death data (from  February 24\textsuperscript{st}  to May 2nd\textsuperscript{st})  using  squared  error  estimator  via  trajectory matching.  Hence, a global optimization algorithm, based on  \emph{generalized simulated annealing method}~ @GenSA, was exploited to estimate 13 model parameters characterized by a high uncertainty due to their difficulty  of  being  empirically  measured.   
+
+
 
 ```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\',  fig.height = 4, fig.width = 6, fig.pos='H'}
 
@@ -54,38 +50,28 @@ knitr::include_graphics("./Figures/InfectsHistALL-1.png")
 ```
 
 
-## Stochastic simulation
-
-```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:DailyInfect}',  fig.height = 4, fig.width = 6, fig.pos='H'}
-
-knitr::include_graphics("./Figures/StochMedianDiff-1.png")
-```
- 
-The daily evolution of infected individuals computed by the stochastic simulation. The stack bars report the undetected infected individuals (orange), the quarantine infected individuals(light blue), and hospitalized infected (blue). The red line outlines the trend of the infected cases from surveillance data. The surveillance data contains measurements error for two days, causing a negative infect count for such days.
-
 ## Studying the effects of different population responses to government actions.
 
 ```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:AlphaVar}',  fig.height = 4, fig.width = 6, fig.pos='H'}
 
-knitr::include_graphics("./Figures/FutureComulativeInfects-1.png")
+knitr::include_graphics("./Figures/DiffStrengths-1.png")
 ```
 
-One-month forecast of the cumulative infected cases ($\sum_{i=1}^5 Iq_{i}$ + $Ih_{i}$) obtained by deterministic simulation. The traces were divided in four ranges based on the $\alpha(\text{March 21\textsuperscript{st}})$ values. The blue trace corresponds to the cumulative evolution of the infected cases obtained considering  the three $\alpha$ estimated by the surveillance data collected.
 
-```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:Stoch2} ',  fig.height = 4, fig.width = 6, fig.pos='H'}
+## COVID-19 epidemic containment strategies.
 
-knitr::include_graphics("./Figures/StochFutComDistribution-1.png")
-```
 
-Density distribution at May 1\textsuperscript{st} of the infected cases considering three values of $\alpha(\text{March 21\textsuperscript{st}})$. The green lines represent their median values.
-
-## Studying the effects of different percentages of asyntomatic individuals.
+The daily evolution of infected individuals is shown varying on the columns the  the efficacy of individual-level measures and on the rows the efficacy of  community surveillance.
 
 ```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='\\label{fig:Boxplot}',  fig.height = 4, fig.width = 6, fig.pos='H'}
 
-knitr::include_graphics("./Figures/ViolinPlot-1.png")
+knitr::include_graphics("./Figures/Plot3_withLine-1.png")
 ```
- The number of detected cases from February, 21$\textsuperscript{st}$ to May, 1$\textsuperscript{st}$. In each time point, three boxes report the infected cases distribution for the three scenario considered: one-to-one, one-to-one-half and one-to-ten scenarios colored in yellow, green and purple, respectively.
+
+
+Specifically, in Figure~\ref{fig:Boxplot} we show the daily forecasts of the number of infected individuals with the efficacy of individual-level measures ranging from $0\%$ to $60\%$ on the columns (increasing by steps of $20\%$) and, on the rows,  increasing capability (from 0\% to 30\%, by 10\% steps) of identifying otherwise undetected infected individuals.
+These results are obtained as median value of 5000 traces for each scenario obtained from the stochastic simulation.
+
 
 # References
   

@@ -1,7 +1,27 @@
 library(cowplot)
 library(ggplot2)
-setwd("./../../Results/Model1/")
-load("./results_model_analysisDIFFALPHA/COVID-19Piemonte-analysys.RData")
+
+if(alpha.variation=="W")
+{
+  FolderName<-"results_model_analysisDIFFALPHA_work"
+  intervals<-c("Low \n [0.5,0.6]","Medium-Low  \n (0.35,0.5]","Medium-High \n (0.2,0.35]","High \n (0.1,0.2]" )
+  min = c(0.5,0.35,0.2,0.1)
+  max = c(0.6,0.5,0.35,0.2)
+}else if(alpha.variation=="O")
+{
+  FolderName<-"results_model_analysisDIFFALPHA_other"
+  intervals<-c("Low \n [0.35,0.4]","Medium-Low  \n (0.25,0.35]","Medium-High \n (0.15,0.25]","High \n (0.05,0.15]" )
+  min = c()
+  max = c()
+}else if(alpha.variation=="BOTH")
+{
+  FolderName<-"results_model_analysisDIFFALPHA_both"
+  intervals<-c("Low \n [0.55,0.65]","Medium-Low  \n (0.65,0.75]","Medium-High \n (0.75,0.85]","High \n (0.85,0.95]" )
+}
+
+
+
+load(paste0("./",FolderName,"/COVID-19Piemonte-analysys.RData") )
 
 gg_color_hue <- function(n) {
   hues = seq(15, 375, length = n + 1)
@@ -9,18 +29,23 @@ gg_color_hue <- function(n) {
 }
 cols = gg_color_hue(4)
 
-listFile<-list.files("./results_model_analysisDIFFALPHA/",
+listFile<-list.files(paste0("./",FolderName,"/"),
                      pattern = ".trace")
 
 id.traces<-1:(length(listFile)-1)
+load("input/ContactMatrices.RData")
+Mo[1,1]->mo
+Mw[2,2]->mw
 
 ListTraces<-lapply(id.traces,
                    function(x){
-                     trace.tmp=read.csv(paste0(
-                       "./results_model_analysisDIFFALPHA/COVID-19Piemonte-analysys-",
+                     trace.tmp=read.csv(paste0("./",FolderName,"/COVID-19Piemonte-analysys-",
                        x,
                        ".trace"), sep = "")
-                     config[[4]][[x]][[3]]->alp
+                     
+                       config[[2]][[x]][[3]]->alp_matrix
+                       alp_matrix[4,12]->alp
+                       
                      trace.tmp=data.frame(trace.tmp, ID=x, alpha = alp[length(alp)]  )
                      if(length(trace.tmp$ID)==71) return(trace.tmp)
                      
@@ -34,50 +59,46 @@ trace$Time<-rep(seq(as.Date("2020/02/21"), by = "day", length.out = length(uniqu
 
 
 ### reference
-reference <- as.data.frame(t(read.csv("./../../input/reference.csv",
+reference <- as.data.frame(t(read.csv("./input/reference.csv",
                                       header = FALSE,
                                       sep = "")))
+age_classes=3
+
+# updated at 16/04 with tree age classes
+p<-.252+.305+.24
+death_percentages<-c(1-p,p)
+
+Death_ages <-as.data.frame(matrix((reference[,age_classes+1]),ncol=1) %*% matrix(death_percentages,ncol=(age_classes-1)) )
 
 
-# updated at 23/02
-death_percentages<-c(0.007,0.046,.378,.569)
-
-Death_ages <-as.data.frame(matrix((reference[,6]),ncol=1) %*% matrix(death_percentages,ncol=4))
+reference<- data.frame(Time=trace$Time[0:length(reference$V1)], reference[,1:age_classes],rowSums(reference[,1:age_classes]),Death_ages,reference[,age_classes+1])
 
 
-reference<- data.frame(Time=trace$Time[0:length(reference$V1)], reference[,1:5],rowSums(reference[,1:5]),Death_ages,reference[,6])
-a0=c("c_Li_a0","c_Lh_a0")
-a1=c("c_Li_a1","c_Lh_a1")
-a2=c("c_Li_a2","c_Lh_a2")
-a3=c("c_Li_a3","c_Lh_a3")
-a4=c("c_Li_a4","c_Lh_a4")
-d=c("d_a1","d_a2","d_a3","d_a4")
-l<-list(a0,a1,a2,a3,a4,c(a0,a1,a2,a3,a4),"d_a1","d_a2","d_a3","d_a4",d)
+titleList<-c("Infects 00-19 years old","Infects 20-69 years old","Infects 70++ years old","Infects all ages",
+             "Deaths 20-69 years old","Deaths 70++ years old","Deaths all ages")
+ylabel<- c(paste0("Total cases in a",0:(age_classes-1)),"Total cases",paste0("Total deaths in a",0:(age_classes-1)),"Total deaths")
+
+a0=c("c_La_a0","c_Li_a0","c_Lh_a0")
+a1=c("c_La_a1","c_Li_a1","c_Lh_a1")
+a2=c("c_La_a2","c_Li_a2","c_Lh_a2")
+d=c("d_a1","d_a2")
+l<-list(a0,a1,a2,c(a0,a1,a2),"d_a1","d_a2",d)
+
+################################################
+AgesNames=c("0-19 years old","20-69 years old","70++ years old","Comulative")
+
+Trace_big_hist <- data.frame( Time = rep(trace$Time, length(l[[(age_classes+1)]])+3 ),
+                              I = c(unlist(trace[, l[[(age_classes+1)]] ]), rowSums(trace[, paste0("c_La_a",0:(age_classes-1))] ),rowSums(trace[, paste0("c_Li_a",0:(age_classes-1))] ),rowSums(trace[, paste0("c_Lh_a",0:(age_classes-1))] )),
+                              alpha= rep(trace$alpha,(age_classes+1)), id=rep(trace$ID,(age_classes+1)),
+                              Interval = rep(0,length(trace$Time)*(age_classes+1) ),
+                              Ages=rep(AgesNames,each=length(trace$Time)*3) )
 
 
-
-titleList<-c("Infects 00-19 years old","Infects 20-39 years old","Infects 40-59 years old","Infects 60-79 years old","Infects 80++ years old","Infects all ages",
-             "Deaths 20-39 years old","Deaths 40-59 years old","Deaths 60-79 years old","Deaths 80++ years old","Deaths all ages")
-ylabel<-c("Total cases in a0","Total cases in a1","Total cases in a2","Total cases in a3","Total cases in a4","Total cases",
-          "Total deaths in a1","Total deaths in a2","Total deaths in a3","Total deaths in a4","Total deaths")
-
-
-AgesNames=c("0-19 years old","20-39 years old","40-59 years old","60-79 years old","80++ years old","Comulative")
-
-Trace_big_hist<-data.frame( Time = rep(trace$Time, 6 ),
-                            I = c(rowSums(trace[,a0] ),rowSums(trace[, a1] ),rowSums(trace[,a2]),rowSums(trace[,a3] ),rowSums(trace[, a4] ),rowSums(trace[,l[[6]]])),
-                            Ages=rep(AgesNames,each=length(trace$Time)),
-                            alpha= rep(trace$alpha,6), id=rep(trace$ID,6),
-                            Interval = rep(0,length(trace$Time)*6 ))
-
-intervals<-c("Low \n [0.55,0.65]","Medium-Low  \n (0.65,0.75]","Medium-High \n (0.75,0.85]","High \n (0.85,0.95]" )
-min = .55
-max = .65
-for( j in 1:4)
+for( j in 1:length(intervals))
 {
-  Trace_big_hist$Interval[which( Trace_big_hist$alpha <= max & Trace_big_hist$alpha > min  )] <- intervals[j]
-  min = min + .1
-  max = max + .1
+  min_tmp=min[j]
+  max_tmp=max[j]
+  Trace_big_hist$Interval[which( Trace_big_hist$alpha <= max_tmp & Trace_big_hist$alpha > min_tmp  )] <- intervals[j]
 }
 
 
@@ -85,7 +106,7 @@ for( j in 1:4)
 
 ######################## Trace estimated:
 
-traceEstim=as.data.frame(read.csv( "./results_model_analysisDIFFALPHA/COVID-19Piemonte-analysysAlpha3Estimated.trace", sep = ""))
+traceEstim=as.data.frame(read.csv( "./results_model_analysisEstimated/COVID-19Piemonte-analysys-1.trace", sep = ""))
 traceEstim$Time<-seq(as.Date("2020/02/21"), by = "day", length.out = length(traceEstim$Time))
 
 Estim<-lapply(1:length(l),function(g){
@@ -98,8 +119,8 @@ Estim<-lapply(1:length(l),function(g){
 
 Estim<-do.call("cbind",Estim)
 
-EstimAges <-data.frame( Time = rep(traceEstim$Time, 6 ),
-                   I = c( Estim[,1],Estim[,2],Estim[,3],Estim[,4],Estim[,5],Estim[,6] ) ,
+EstimAges <-data.frame( Time = rep(traceEstim$Time, (age_classes+1) ),
+                   I = c( Estim[,1],Estim[,2],Estim[,3],Estim[,4] ) ,
                    Ages= rep(AgesNames,each=length(traceEstim$Time)),
                    alpha= "Estimated")
 
@@ -156,9 +177,9 @@ pl2<-  ggplot( data=InfoTracesDataframe[which(InfoTracesDataframe$Ages=="Comulat
   scale_x_date( breaks = seq(as.Date("2020/02/21"),as.Date("2020/05/01"), by = "week"), date_labels = "%b-%d")+
   scale_y_continuous(breaks= scales::pretty_breaks(n = 8))
 
-ggsave(plot = pl2,filename = "Plot/diffalpha.pdf",
-       dpi = 400, width = 20, height = 10,device = "pdf")
 
+ggsave(plot = pl2,filename = paste0("Plot/DifAlpha",alpha.variation,".pdf"),
+       dpi = 400, width = 15, height = 8,device = "pdf")
 
 ##### split for each age class
 
@@ -194,6 +215,8 @@ pl2<-ggplot( data=InfoTracesDataframe)+
   scale_y_continuous(breaks= scales::pretty_breaks(n = 8))
 
 
+ggsave(plot = pl2,filename = paste0("Plot/DifAlpha",alpha.variation,"_ages.pdf"),
+       dpi = 400, width = 15, height = 8,device = "pdf")
 
 ######################
 #### DEATHS
@@ -226,3 +249,8 @@ pl2<-ggplot( data=Trace_big_hist)+
   annotate("text",x=as.Date("2020-03-22"), label="\n Third public restriction", y= Inf, colour="#47606c", size=6,hjust = 0)+
   scale_x_date( breaks = seq(as.Date("2020/02/21"),as.Date("2020/05/01"), by = "week"), date_labels = "%b-%d")+
   scale_y_continuous(breaks= scales::pretty_breaks(n = 8))
+
+
+
+
+

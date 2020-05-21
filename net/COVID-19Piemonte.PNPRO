@@ -1,72 +1,101 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- This project file has been saved by the New GreatSPN Editor, v.100 --><project name="COVID-19" version="121">
-  <gspn name="COVID-19" show-fluid-cmd="false" zoom="150">
+  <gspn name="COVID-19" show-fluid-cmd="false">
     <nodes>
-      <place domain="Age" label-y="-2.0" name="s" x="9.0" y="12.0"/>
-      <place domain="Age" label-x="-1.0" label-y="-2.0" name="e" x="19.0" y="12.0"/>
-      <place domain="AxS" label-x="-0.5" label-y="-2.0" name="i" x="44.0" y="12.0"/>
-      <place domain="AxS" name="r" x="59.0" y="12.0"/>
-      <place domain="Age" name="d" x="59.0" y="7.0"/>
-      <place domain="Age" name="c_C" x="19.0" y="4.0"/>
-      <place domain="Age" name="c_Li" x="29.0" y="15.0"/>
-      <place domain="Age" name="c_La" x="29.0" y="10.0"/>
-      <place domain="Age" name="c_Lh" x="29.0" y="20.0"/>
-      <transition delay="FN:C" name="C" type="GEN" x="24.55" y="7.0"/>
-      <transition delay="FN:L" delay-y="0.5" guard="sy in asymptomatic" name="La" type="GEN" x="34.55" y="12.0"/>
-      <transition delay="FN:L" delay-y="0.5" guard="sy in isolation" name="Li" type="GEN" x="34.55" y="17.0"/>
-      <transition delay="FN:L" delay-y="0.5" guard="sy in hospitalisation" name="Lh" type="GEN" x="34.55" y="22.0"/>
-      <transition delay="rho" name="R" nservers-x="0.5" type="EXP" x="54.55" y="12.0"/>
-      <transition delay="If[a in A0 &amp;&amp; sy in s2, delta0, If[a in A1 &amp;&amp; sy in s2, delta1, If[a in A2 &amp;&amp; sy in s2, delta2, If[a in A3 &amp;&amp; sy in s2, delta3, delta4]]]]" delay-x="-22.5" delay-y="-2.5" name="D" nservers-x="0.5" type="EXP" x="54.55" y="7.0"/>
-      <text-box bold="true" border-color="#000000" fill-color="#ffcf40" height="25.0" horiz-pos="2" name="__textBox0" shadow="true" shape="ROUND_RECTANGLE" text-color="#000000" text-size="HEADER1" vert-pos="3" width="61.5" x="3.5" y="3.0">     </text-box>
-      <color-class definition="{a0} is A0 + {a1} is A1 + {a2} is A2 + {a3} is A3+ {a4} is A4" name="Age" x="70.5625" y="5.0"/>
-      <color-class definition="{s0} is asymptomatic + {s1} is isolation + {s2} is hospitalisation" name="Symptom" x="76.375" y="8.0"/>
+      <place domain="Age" label-y="-2.0" name="s" x="9.0" y="19.0"/>
+      <place domain="Age" label-x="-1.0" label-y="-2.0" name="e" x="19.0" y="19.0"/>
+      <place domain="AxS" label-x="-0.5" label-y="-2.0" name="i" x="44.0" y="19.0"/>
+      <place domain="AxS" label-y="-1.5" name="r" x="59.0" y="19.0"/>
+      <place domain="Age" name="d" x="59.0" y="14.0"/>
+      <place domain="Age" name="c_C" x="19.0" y="12.0"/>
+      <place domain="Age" name="c_Lq" x="29.0" y="22.0"/>
+      <place domain="Age" name="c_Lu" x="29.0" y="17.0"/>
+      <place domain="Age" name="c_Lh" x="29.0" y="27.0"/>
+      <transition delay="FN:C" name="C" type="GEN" x="24.55" y="14.0"/>
+      <transition delay="mu" delay-y="0.5" guard="sy in asymptomatic" name="Lu" nservers-x="0.5" type="EXP" x="34.55" y="19.0"/>
+      <transition delay="mu" delay-y="0.5" guard="sy in isolation" name="Lq" nservers-x="0.5" type="EXP" x="34.55" y="24.0"/>
+      <transition delay="mu" delay-y="0.5" guard="sy in hospitalisation" name="Lh" nservers-x="0.5" type="EXP" x="34.55" y="29.0"/>
+      <transition delay="rho" name="R" nservers-x="0.5" type="EXP" x="54.55" y="19.0"/>
+      <transition delay="If[inf in A0 &amp;&amp; sy in s2, delta0, If[inf in A1 &amp;&amp; sy in s2, delta1, If[inf in A2 &amp;&amp; sy in s2, delta2, 0]]]" delay-x="-32.5" delay-y="-2.5" label-y="1.5" name="D" nservers-x="0.5" type="EXP" x="54.55" y="14.0"/>
+      <text-box bold="true" border-color="#000000" fill-color="#ffcf40" height="31.0" horiz-pos="2" name="__textBox0" shadow="true" shape="ROUND_RECTANGLE" text-color="#000000" text-size="HEADER1" vert-pos="3" width="66.5" x="3.5" y="8.0">     </text-box>
+      <color-class definition="{a0} is A0 + {a1} is A1 + {a2} is A2 " name="Age" x="70.5625" y="5.0"/>
+      <color-class definition="circular {s0} is asymptomatic + {s1} is isolation + {s2} is hospitalisation" name="Symptom" x="76.375" y="8.0"/>
       <color-class definition="Age*Symptom" name="AxS" x="77.25" y="11.0"/>
-      <color-var domain="Age" name="a" x="80.1875" y="14.0"/>
+      <color-var domain="Age" name="inf" x="80.1875" y="14.0"/>
       <color-var domain="Symptom" name="sy" x="79.875" y="20.0"/>
       <constant consttype="REAL" name="delta1" value="0.0" x="114.0" y="8.0"/>
       <constant consttype="REAL" name="lambda_asymptomatic" value="0.0" x="111.6875" y="14.0"/>
       <constant consttype="REAL" name="rho" value="0.0" x="127.25" y="17.0"/>
-      <color-var domain="Age" name="b" x="80.0" y="17.0"/>
+      <color-var domain="Age" name="sus" x="80.25" y="17.0"/>
       <constant consttype="REAL" name="delta2" value="0.0" x="126.0" y="5.0"/>
       <constant consttype="REAL" name="delta3" value="0.0" x="126.0" y="8.0"/>
       <constant consttype="REAL" name="delta0" value="0.0" x="114.0" y="5.0"/>
       <constant consttype="REAL" name="lambda_hospitalisation" value="0.0" x="125.125" y="14.0"/>
       <constant consttype="REAL" name="lambda_isolation" value="0.0" x="111.9375" y="17.0"/>
       <constant consttype="REAL" name="delta4" value="0.0" x="114.0" y="11.0"/>
+      <transition delay="phi" name="H" nservers-x="0.5" type="EXP" x="34.55" y="34.0"/>
+      <place domain="Age" name="c_H" x="29.0" y="32.0"/>
+      <constant consttype="REAL" name="phi" value="0.001826484" x="126.1875" y="11.0"/>
+      <transition delay="FN:SW" delay-x="1.0" delay-y="0.0" guard="sy in s0" guard-x="2.0" guard-y="1.0" name="SW" rotation="0.5235987755982988" type="GEN" x="49.55" y="24.0"/>
+      <constant consttype="REAL" name="sigma" value="0.0" x="114.1875" y="20.0"/>
+      <transition delay="zeta" name="O" nservers-x="0.5" type="EXP" x="64.55" y="9.0"/>
+      <place name="d_w" x="59.0" y="9.0"/>
+      <constant consttype="REAL" name="zeta" value="0.0892857" x="127.3125" y="20.0"/>
+      <constant consttype="REAL" name="mu" value="0.0" x="114.1875" y="23.0"/>
+      <place domain="Age" name="c_SW" x="44.0" y="28.0"/>
     </nodes>
     <edges>
-      <arc head="C" kind="INPUT" mult="&lt;b&gt;" mult-k="0.8334960937500001" tail="s">
-        <point x="15.0" y="8.0"/>
+      <arc head="C" kind="INPUT" mult="&lt;sus&gt;" mult-k="0.8334960937500001" tail="s">
+        <point x="15.0" y="15.0"/>
       </arc>
-      <arc head="e" kind="OUTPUT" mult="&lt;b&gt;" tail="C"/>
-      <arc head="i" kind="OUTPUT" mult="&lt;a,sy&gt;" mult-k="0.34541015625000004" tail="C"/>
-      <arc head="C" kind="INPUT" mult="&lt;a,sy&gt;" mult-k="1.13466796875" tail="i">
-        <point x="40.0" y="8.0"/>
+      <arc head="e" kind="OUTPUT" mult="&lt;sus&gt;" tail="C"/>
+      <arc head="i" kind="OUTPUT" mult="&lt;inf,sy&gt;" mult-k="0.34541015625000004" tail="C"/>
+      <arc head="C" kind="INPUT" mult="&lt;inf,sy&gt;" mult-k="1.13466796875" tail="i">
+        <point x="40.0" y="15.0"/>
       </arc>
-      <arc head="R" kind="INPUT" mult="&lt;a,sy&gt;" tail="i"/>
-      <arc head="r" kind="OUTPUT" mult="&lt;a,sy&gt;" tail="R"/>
-      <arc head="D" kind="INPUT" mult="&lt;a,sy&gt;" mult-k="1.0831054687500004" tail="i">
-        <point x="49.5" y="8.0"/>
+      <arc head="R" kind="INPUT" mult="&lt;inf,sy&gt;" tail="i"/>
+      <arc head="r" kind="OUTPUT" mult="&lt;inf,sy&gt;" mult-x="0.0" mult-y="-1.0" tail="R"/>
+      <arc head="D" kind="INPUT" mult="&lt;inf,sy&gt;" mult-k="1.0831054687500004" tail="i">
+        <point x="49.5" y="15.0"/>
       </arc>
-      <arc head="d" kind="OUTPUT" mult="&lt;a&gt;" tail="D"/>
-      <arc head="La" kind="INPUT" mult="&lt;a&gt;" mult-k="0.20341796875" tail="e"/>
-      <arc head="i" kind="OUTPUT" mult="&lt;a,sy&gt;" mult-k="0.20322265625" mult-x="1.4677734375" mult-y="-0.5" tail="La"/>
-      <arc head="Li" kind="INPUT" mult="&lt;a&gt;" mult-x="0.9573867465638095" mult-y="0.4573867465638095" tail="e">
-        <point x="25.0" y="18.0"/>
+      <arc head="d" kind="OUTPUT" mult="&lt;inf&gt;" tail="D"/>
+      <arc head="Lu" kind="INPUT" mult="&lt;inf&gt;" mult-k="0.20341796875" tail="e"/>
+      <arc head="i" kind="OUTPUT" mult="&lt;inf,sy&gt;" mult-k="0.20322265625" mult-x="1.4677734375" mult-y="-0.5" tail="Lu"/>
+      <arc head="Lq" kind="INPUT" mult="&lt;inf&gt;" mult-x="0.9573867465638095" mult-y="0.4573867465638095" tail="e">
+        <point x="25.0" y="25.0"/>
       </arc>
-      <arc head="i" kind="OUTPUT" mult="&lt;a,sy&gt;" mult-k="0.39404296875" mult-x="0.9592032766434073" mult-y="-0.5" tail="Li">
-        <point x="40.0" y="18.0"/>
+      <arc head="i" kind="OUTPUT" mult="&lt;inf,sy&gt;" mult-k="0.39404296875" mult-x="0.9592032766434073" mult-y="-0.5" tail="Lq">
+        <point x="40.0" y="25.0"/>
       </arc>
-      <arc head="Lh" kind="INPUT" mult="&lt;a&gt;" tail="e">
-        <point x="25.0" y="23.0"/>
+      <arc head="Lh" kind="INPUT" mult="&lt;inf&gt;" tail="e">
+        <point x="25.0" y="30.0"/>
       </arc>
-      <arc head="i" kind="OUTPUT" mult="&lt;a,sy&gt;" mult-x="0.9592032766434073" mult-y="-0.5" tail="Lh">
-        <point x="40.0" y="23.0"/>
+      <arc head="i" kind="OUTPUT" mult="&lt;inf,sy&gt;" mult-x="0.9592032766434073" mult-y="-0.5" tail="Lh">
+        <point x="40.0" y="30.0"/>
       </arc>
-      <arc head="c_La" kind="OUTPUT" mult="&lt;a&gt;" mult-y="0.0" tail="La"/>
-      <arc head="c_Li" kind="OUTPUT" mult="&lt;a&gt;" mult-y="0.0" tail="Li"/>
-      <arc head="c_Lh" kind="OUTPUT" mult="&lt;a&gt;" mult-y="0.0" tail="Lh"/>
-      <arc head="c_C" kind="OUTPUT" mult="&lt;a&gt;" mult-k="0.6405273437500002" tail="C"/>
+      <arc head="c_Lu" kind="OUTPUT" mult="&lt;inf&gt;" mult-y="0.0" tail="Lu"/>
+      <arc head="c_Lq" kind="OUTPUT" mult="&lt;inf&gt;" mult-y="0.0" tail="Lq"/>
+      <arc head="c_Lh" kind="OUTPUT" mult="&lt;inf&gt;" mult-y="0.0" tail="Lh"/>
+      <arc head="c_C" kind="OUTPUT" mult="&lt;sus&gt;" mult-k="0.6405273437500002" tail="C"/>
+      <arc head="H" kind="INPUT" mult="&lt;inf,sy&gt;" tail="r">
+        <point x="50.0" y="35.0"/>
+      </arc>
+      <arc head="s" kind="OUTPUT" mult="&lt;inf&gt;" tail="H">
+        <point x="20.0" y="35.0"/>
+      </arc>
+      <arc head="c_H" kind="OUTPUT" mult="&lt;inf&gt;" mult-y="-0.5" tail="H"/>
+      <arc head="SW" kind="INPUT" mult="&lt;inf,sy&gt;" mult-x="1.5" mult-y="0.0" tail="i"/>
+      <arc head="i" kind="OUTPUT" mult="&lt;inf,sy++&gt;" mult-x="0.04079672335659268" mult-y="-0.5" tail="SW">
+        <point x="45.0" y="25.0"/>
+      </arc>
+      <arc head="d_w" kind="OUTPUT" tail="D">
+        <point x="55.0" y="10.0"/>
+      </arc>
+      <arc head="O" kind="INPUT" tail="d_w"/>
+      <arc head="c_SW" kind="OUTPUT" mult="&lt;inf&gt;" tail="SW"/>
+      <arc head="d_w" kind="OUTPUT" mult-k="0.94423828125" tail="Lh">
+        <point x="39.0" y="10.0"/>
+      </arc>
     </edges>
   </gspn>
   <gspn name="IN-OUT_COVID-19" show-fluid-cmd="false">
