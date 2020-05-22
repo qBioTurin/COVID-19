@@ -1,31 +1,45 @@
 
+##### First Step: upload the library EPIMOD and download the Docker containers
+# To install the library: https://github.com/qBioTurin/epimod
+
 library(epimod)
+downloadContainers()
+
+#### Second Step: generate the solver of the Petri Net representing the COVID19 model
+# saved in COVID-19Piemonte.PNPRO
 
 model_generation(net_fname = "net/COVID-19Piemonte.PNPRO", 
                  functions_fname = "cpp/transitions.cpp")
 
-### reference updated until 04/16
-# 
-# sensitivity_analysis(n_config = 2,
-#                      solver_fname = "net/COVID-19Piemonte.solver",
-#                      f_time = 38,
-#                      s_time = 1,
-#                      parameters_fname = "input/plist.csv",
-#                      functions_fname = "R_func/Functions.R",
-#                      target_value_fname = "R_func/Target.R",
-#                      #distance_measure_fname = "R_func/msqd.R",
-#                      # reference_data = "input/reference.csv",
-#                      parallel_processors = 1)
+#### Third Step: run the calibration phase in order to estimate an optimal parameter configuration
 
-# optim<-c(0.0155,0.1465933,0.5258945,
-#          0.0265,0.219,1800,
-#          0.4739693,0.446729,0.184,0.104,
-#          3.979615,.01)
+# three parameters represent the probability of infection for each age class,
+# two parameters represent the  death rate for the hospitalized patients,
+# four parameters reflect the governmental action strength for Work and Other
+#      at time epoch: March 8th, March 21st,
+# one parameter describes the intensity of the population response (i.e., $k$),
+# two parameters are the initial condition for the undetected and quarantine infected individuals,
+# the remainder parameter represents the detection rate for the third age class starting from
+#     the $1^{st}$ April.
 
-optim<-c(0.0205,0.155,0.531,
-         0.026765,0.22119,600,
-         0.68,0.5,0.2,0.15,
-         4,0.11)
+optimStart<-c( 0.0085, 0.086,0.285, 
+               0.024,0.28,
+               50,
+               0.7,0.6,0.4,0.2, 
+               4,90,0.1)
+
+Lb<-c( 0.005, 0.05,0.1,
+       0.01,0.1,
+       10,
+       0.7,0.6,0.4,0.2,
+       3,20,0)
+
+Ub<-c( 0.01, 0.1,0.5,
+       0.1,0.5,
+       100,
+       0.7,0.6,0.4,0.2,
+       5,150,0.2)
+
 
 model_calibration(solver_fname = "net/COVID-19Piemonte.solver",
                   f_time = 71,
@@ -35,22 +49,20 @@ model_calibration(solver_fname = "net/COVID-19Piemonte.solver",
                   distance_measure_fname = "R_func/msqd.R",
                   reference_data = "input/reference.csv",
                   timeout = "1d",
-                  ini_v = optim,
-                  lb= c(optim[c(1:3)]*.999,optim[c(4:5)]*.99 ,300, optim[c(7:10)]*.8, 3, .05),
-                  ub= c(optim[c(1:3)]*1.001,optim[c(4:5)]*1.01 ,1000, optim[c(7:10)]*1.3, 5, .15) )
+                  ini_v = optimStart,
+                  lb= Lb,
+                  ub= Ub )
 
 #####################################################################
-# optim<-c(0.016,0.155,0.53,
-#          0.02649735,0.2234019,
-#          370,
-#          0.6,0.5,0.2,0.1,
-#          3.6,0.12)
+##### Here we exploit te best configuration discovered to solve the 
+##### system of ODEs corresponding to the model.
 
-# optim<-c(0.012, 0.11 ,0.39,
-#          0.02649735,0.2234019,
-#          370,
-#          0.6,0.5,0.2,0.1,
-#          11,0.12)
+optim<-c(0.0095,0.08,0.285,
+         0.019,0.33,
+         60,
+         0.75,0.65,0.4,0.3,
+         4,100,0.12)
+
 
 model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 71,
@@ -61,21 +73,104 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                ini_v = optim,
                ini_vector_mod = TRUE)
 
+# Automatically the plots regarding the Infected individuals and deaths
+# are generated
+
 source('./R_func/plot/PlotModelAnalysis.R')
-paste(trace$c_SW_a2)
+
+###### Here to generate the simulations to obtain the results showed in Fig 3,
+# for the COVID-19 spread and the different government control interventions
+
+# the script to generate the plots are folder name dependent, for this reason
+# every time the simulations are ended, the folder name (results_model_analysis)
+# is changed
+
+optim<-c(0.0095,0.08,0.285,
+         0.019,0.33,
+         60,
+         0.75,0.65,0.4,0.3,
+         4,100,0.12)
+
+model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+               f_time = 70,
+               s_time = 1,
+               solver_type = "TAUG",taueps = .01,
+               n_run = 10000,
+               parallel_processors = 20,
+               parameters_fname = "input/plist.csv",
+               functions_fname = "R_func/Functions.R",
+               ini_v = optim,
+               ini_vector_mod = TRUE)
+
+folder = "results_model_analysisStochEstimated"
+system(paste('mv', 
+             sprintf("results_model_analysis"),
+             sprintf(folder)) )
+
+
+optim<-c(0.0095,0.08,0.285,
+         0.019,0.33,
+         60,
+         0.75,0.65,0.75,0.65,
+         4,100,0.12)
+
+
+model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+               f_time = 70,
+               s_time = 1,
+               solver_type = "TAUG",taueps = .01,
+               n_run = 10000,
+               parallel_processors = 20,
+               parameters_fname = "input/plist.csv",
+               functions_fname = "R_func/Functions.R",
+               ini_v = optim,
+               ini_vector_mod = TRUE)
+
+folder = "results_model_analysisStochWorst"
+system(paste('mv', 
+             sprintf("results_model_analysis"),
+             sprintf(folder)) )
+
+
+#### best option
+optim<-c(0.0095,0.08,0.285,
+         0.019,0.33,
+         60,
+         0.75,0.65,0.1,0.05,
+         4,100,0.12)
+
+model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+               f_time = 70,
+               s_time = 1,
+               solver_type = "TAUG",taueps = .01,
+               n_run = 10000,
+               parallel_processors = 20,
+               parameters_fname = "input/plist.csv",
+               functions_fname = "R_func/Functions.R",
+               ini_v = optim,
+               ini_vector_mod = TRUE)
+
+folder = "results_model_analysisStochBest"
+system(paste('mv', 
+             sprintf("results_model_analysis"),
+             sprintf(folder)) )
+
+source("R_func/plot/HistogramDistributionDifferentAlpha.R")
 
 #########################
 #### Stochastic simulation
-optim<-c(0.016,0.155,0.53,
-         0.02649735,0.2234019,
-         370,
-         0.6,0.5,0.2,0.1,
-         4,0.12)
+
+optim<-c(0.0095,0.08,0.285,
+         0.019,0.33,
+         60,
+         0.75,0.65,0.4,0.3,
+         4,100,0.12)
+
 
 model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
-               f_time = 190,
+               f_time = 70,
                s_time = 1,
-               solver_type = "TAUG",taueps = .01,
+               solver_type = "TAUG",taueps = .001,
                n_run = 5000,
                parallel_processors = 20,
                parameters_fname = "input/plist.csv",
@@ -85,135 +180,10 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario1"
 folder = "results_model_analysisScenario1"
-source("R_func/plot/StochComulativeInfects.R")
-source("R_func/plot/Plot_StochDiff.R")
-source("R_func/plot/StochLinePlot.R")
-############## Scenario 2
-#### All open, no school
-
-optim<-c(0.016,0.155,0.53,
-         0.02649735,0.2234019,
-         370,
-         0.6,0.5,0.2,0.1,
-         4,0.12)
-
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
-               f_time = 190,
-               s_time = 1,
-               solver_type = "TAUG",taueps = .01,
-               n_run = 5000,
-               parallel_processors = 20,
-               parameters_fname = "input/plistScenario2.csv",
-               functions_fname = "R_func/Functions.R",
-               ini_v = optim,
-               ini_vector_mod = TRUE)
-
-nameplot="Scenario2"
-folder = "results_model_analysisScenario2"
-source("R_func/plot/StochComulativeInfects.R")
-source("R_func/plot/Plot_StochDiff.R")
-source("R_func/plot/StochLinePlot.R")
-
-############## Scenario 3
-#### work open
-
-optim<-c(0.016,0.155,0.53,
-         0.02649735,0.2234019,
-         370,
-         0.6,0.5,0.2,0.1,
-         4,0.12)
-
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
-               f_time = 190,
-               s_time = 1,
-               solver_type = "TAUG",taueps = .01,
-               n_run = 5000,
-               parallel_processors = 20,
-               parameters_fname = "input/plistScenario3.csv",
-               functions_fname = "R_func/Functions.R",
-               ini_v = optim,
-               ini_vector_mod = TRUE)
-
-nameplot="Scenario3"
-folder = "results_model_analysisScenario3"
-source("R_func/plot/StochComulativeInfects.R")
-source("R_func/plot/Plot_StochDiff.R")
-source("R_func/plot/StochLinePlot.R")
-
-############## Scenario 3 with detection
-#### work open
-
-optim<-c(0.016,0.155,0.53,
-         0.02649735,0.2234019,
-         370,
-         0.6,0.5,0.2,0.1,
-         4,0.12)
-
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
-               f_time = 190,
-               s_time = 1,
-               solver_type = "TAUG",taueps = .01,
-               n_run = 5000,
-               parallel_processors = 20,
-               parameters_fname = "input/plistScenario3detection.csv",
-               functions_fname = "R_func/Functions.R",
-               ini_v = optim,
-               ini_vector_mod = TRUE)
-
-nameplot="Scenario3detection"
-folder = "results_model_analysisScenario3detection"
-source("R_func/plot/StochLinePlot.R")
+system(paste('mv', 
+            sprintf("results_model_analysis"),
+            sprintf(folder)) )
+      
 source("R_func/plot/StochComulativeInfects.R")
 source("R_func/plot/Plot_StochDiff.R")
 
-############## Scenario 4
-#### School and all open in September
-
-optim<-c(0.016,0.155,0.53,
-         0.02649735,0.2234019,
-         370,
-         0.6,0.5,0.2,0.1,
-         4,0.12)
-
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
-               f_time = 310,
-               s_time = 1,
-               solver_type = "TAUG",taueps = .01,
-               n_run = 5000,
-               parallel_processors = 20,
-               parameters_fname = "input/plistScenario4.csv",
-               functions_fname = "R_func/Functions.R",
-               ini_v = optim,
-               ini_vector_mod = TRUE)
-
-nameplot="Scenario4"
-folder = "results_model_analysisScenario4"
-source("R_func/plot/StochLinePlot.R")
-source("R_func/plot/StochComulativeInfects.R")
-source("R_func/plot/Plot_StochDiff.R")
-
-############## Scenario 4 with detection
-#### School and all open in September
-
-optim<-c(0.016,0.155,0.53,
-         0.02649735,0.2234019,
-         370,
-         0.6,0.5,0.2,0.1,
-         4,0.12)
-
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
-               f_time = 310,
-               s_time = 1,
-               solver_type = "TAUG",taueps = .01,
-               n_run = 5000,
-               parallel_processors = 20,
-               parameters_fname = "input/plistScenario4detection.csv",
-               functions_fname = "R_func/Functions.R",
-               ini_v = optim,
-               ini_vector_mod = TRUE)
-
-nameplot="Scenario4detection"
-folder = "results_model_analysisScenario4detection"
-source("R_func/plot/StochLinePlot.R")
-source("R_func/plot/StochComulativeInfects.R")
-source("R_func/plot/Plot_StochDiff.R")
