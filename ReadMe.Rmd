@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
   
 # Workflow
 
-All the reported experiments were performed using [Epimod](https://github.com/qBioTurin/epimod), a tool recently developed by our group to provide a generalframework to draw and analyze epidemiological systems.
+All the reported experiments were performed using [Epimod](https://github.com/qBioTurin/epimod), a tool recently developed by our group to provide a general framework to draw and analyze epidemiological systems.
 For more details regarding the workflow of analysis see [SIR](https://github.com/qBioTurin/SIR), where it is exploited the SIR model as a simple step by step guide of the package.
 
 # Repository structure
@@ -30,7 +30,7 @@ For more details regarding the workflow of analysis see [SIR](https://github.com
 Folders:
 
 1. **Main**: here the two main R files are stored: 1) *run.R* where it is showed how to start, to calibrate the model and to run the main analysis; 2) *runDifferentScenario.R* where there are the 16 function calls for simulating the 16 scenarios pictured in Figures 5 and 6.
-2. **net**: the PNPRO file corresponding to the Extended Sthocastic Symmetric Net (ESSN) [@Pernice19]  exploited to model the COVID-19, and the solver (which should be generated before starting the analysis) are stored;
+2. **net**: the PNPRO file corresponding to the Extended Stochastic Symmetric Net (ESSN) [@Pernice19]  exploited to model the COVID-19, and the solver (which should be generated before starting the analysis) are stored;
 3. **cpp**: the C++ code regarding the general transition of the ESSN;
 4. **R_func**: here are stored all the R scripts to generate the plots and to run the analysis;
 5. **input**: contains all the csv file (e.g., reference, parameter lists) necessary to run the analysis;
@@ -59,21 +59,21 @@ A  detailed  description  of  the  model (e.g., system of ordinary differential 
 The calibration phase was performed to fit the model outcomes with  the surveillance  Piedmont infection and death data (from  February 24st  to May 2nd)  using  squared  error  estimator  via  trajectory matching.  Hence, a global optimization algorithm, based on  \emph{generalized simulated annealing method} [@GenSA], was exploited to estimate 13 model parameters characterized by a high uncertainty due to their difficulty  of  being  empirically  measured:
 
 1. three parameters represent the probability of infection for each age class, 
-2. four parameters reflect the governmental action strength at time epoch $t$ (i.e., $\alpha(t)$ with $t\in \{\ \text{March 8th},  \text{March 21st}\}$),
-3. one parameter describes the intensity of the population response (i.e., $k$),
-4. two parameters represent the  death rate for the hospitalized patients (i.e., $\sigma_i, \ i=2,\ 3$, fixing $\sigma_1=0$),
+2. four parameters reflect the governmental action strength,
+3. one parameter describes the intensity of the population response,
+4. two parameters represent the  death rate for the hospitalized patients,
 5. two parameters are the initial condition for the undetected and quarantine infected individuals,
 6. the remainder parameter represents the detection rate for the third age class starting from the $1^{st}$ April.
 
-Consistently, Figure 2A and 2B show that the calibrated model is able to mimic consistently the observed infected and death cases (red line respectively). In Figure 3  the infected individuals for each age class are shown.
+Consistently, Figure 2A and 2B show that the calibrated model is able to mimic consistently the observed infected and death cases (red line respectively). In details, Figure 2A reports  the  cumulative trend of the infected individuals in which the undetected infected  are showed in orange, the quarantine infected  in light blue, and hospitalized infected in blue. The purple line reports  the cumulative trend of the undetected cases diagnosed by  SARS-CoV-2 swab tests. Differently  Figure 2B shows the cumulative trend of deaths. In both histograms the surveillance data are reported as red line. Similarly, in Figure 3  the infected individuals for each age class are shown.
 
 
-```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='Fig.2)',  fig.height = 4, fig.width = 6, fig.pos='H'}
+```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='Fig.2) Number of (A) infected and (B) deceased individuals. ',  fig.height = 4, fig.width = 6, fig.pos='H'}
 
 knitr::include_graphics("./Figures/Comulatives-1.png")
 ```
 
-```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='Fig.3)',  fig.height = 4, fig.width = 6, fig.pos='H'}
+```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap='Fig.3) Number of infected individuals for each age class. The red curve represents the surveillance data, which does not account for undetected cases.',  fig.height = 4, fig.width = 6, fig.pos='H'}
 
 knitr::include_graphics("./Figures/InfectsHistALL-1.png")
 ```
@@ -93,12 +93,12 @@ knitr::include_graphics("./Figures/DiffStrengths-1.png")
 
 The daily evolution of infected individuals is shown varying on the columns the  the efficacy of individual-level measures and on the rows the efficacy of  community surveillance.
 
-```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap=c('Fig.5)', 'Fig.6)' ),  fig.height = 4, fig.width = 6, fig.pos='H'}
+```{r , echo = FALSE, message=FALSE, fig.align='center', fig.cap=c('Fig.5) Pessimistic scenario in which the gradual reopening is not counterbalanced by any infection-control strategies', 'Fig.6) The daily evolution of infected individuals is shown varying on the columns the  the efficacy of individual-level measures and on the rows the efficacy of  community surveillance' ),  fig.height = 4, fig.width = 6, fig.pos='H'}
 knitr::include_graphics("./Figures/Scenario00-1.png")
 knitr::include_graphics("./Figures/Plot3_withLine-1.png")
 ```
-
-Specifically, in Figure 6 we show the daily forecasts of the number of infected individuals with the efficacy of individual-level measures ranging from $0\%$ to $60\%$ on the columns (increasing by steps of $20\%$) and, on the rows,  increasing capability (from 0\% to 30\%, by 10\% steps) of identifying otherwise undetected infected individuals. These results are obtained as median value of 5000 traces for each scenario obtained from the stochastic simulation.
+Figure 5 shows the daily evolution of infected individuals computed by the stochastic simulation. The stacked bars report the undetected infected (orange), the quarantine infected (light blue), and hospitalized infected (blue). The red line shows the trend of the infected cases from surveillance data. The purple line reports the cumulative trend of the undetected cases diagnosed by SARS-CoV-2 swab tests.
+In Figure 6 we show the daily forecasts of the number of infected individuals with the efficacy of individual-level measures ranging from $0\%$ to $60\%$ on the columns (increasing by steps of $20\%$) and, on the rows,  increasing capability (from 0\% to 30\%, by 10\% steps) of identifying otherwise undetected infected individuals. These results are obtained as median value of 5000 traces for each scenario obtained from the stochastic simulation.
 
 
 # References
