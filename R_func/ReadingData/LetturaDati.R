@@ -1,10 +1,9 @@
 library(ggplot2)
-#### Fissaare come working diretory la cartella COVID-19 del git
-
+#### Fissare come working diretory la cartella COVID-19 del git
 
 regione = "Piemonte"
 
-setwd("~/Desktop/COVD19/COVID-19/dati-regioni/") 
+setwd("./COVD19/COVID-19/dati-regioni/") 
 library(readr)
 
 listFile<-list.files("./",
@@ -97,7 +96,7 @@ ggplot(DatiCOVID_ages,aes(x=time))+geom_line(aes(y=c(Cases_a1[1],diff(Cases_a1,d
   geom_line(aes(y=c(Cases_a3[1],diff(Cases_a3,differences = 1)),col="Cases_a3"))+
   geom_line(aes(y=c( DatiCOVIDlast$totale_casi[1],diff( DatiCOVIDlast$totale_casi,differences = 1)),col="reference"))
 
-setwd("~/Desktop/COVD19/OurGit/covid-19/input/")
+setwd("./COVD19/OurGit/covid-19/input/")
 
 
 
@@ -140,9 +139,6 @@ DatiCOVIDPr <- do.call("rbind", DatiList)
 DatiCOVIDPr<-DatiCOVIDPr[order(DatiCOVIDPr$Data),]
 
 ##############
-# Dati per Fra
-
-setwd("~/Desktop/COVD19/DatiPerFra/")
 
 write.csv(DatiCOVIDlast,"./DatiCOVID_piemonte.csv",row.names = F)
 write.csv(DatiCOVID_ages,"./DatiCOVID_piemonte_ages.csv",row.names = F)
