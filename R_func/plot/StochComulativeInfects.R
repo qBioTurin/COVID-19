@@ -2,7 +2,8 @@ id=1
 library(ggplot2)
 library(cowplot)
 
-trace=as.data.frame(read.csv( paste0("./",folder,"/COVID-19Piemonte-analysys-1.trace"), sep = ""))
+trace=as.data.frame(read.csv( paste0("./results_model_analysisScenario1/COVID-19Piemonte-analysis-1.trace"), sep = ""))
+
 
 
 trace$c_Lq_a0  <- trace$c_SW_a0 + trace$c_Lq_a0 

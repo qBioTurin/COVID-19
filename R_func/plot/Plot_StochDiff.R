@@ -6,7 +6,7 @@ library(cowplot)
 # If median = T then the median will be plotted, otherwise the mean
 medianTrue = T
 
-trace=as.data.frame(read.csv( paste0("./",folder,"/COVID-19Piemonte-analysys-1.trace"), sep = ""))
+trace=as.data.frame(read.csv( paste0("./results_model_analysisScenario1/COVID-19Piemonte-analysis-1.trace"), sep = ""))
 
  trace$c_Lq_a0  <- trace$c_SW_a0 + trace$c_Lq_a0 
 # trace$c_Lu_a0  <- trace$c_Lu_a0 - trace$c_SW_a0 

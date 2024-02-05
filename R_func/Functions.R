@@ -1,4 +1,4 @@
-Contact.generation <- function(alpha,times,matrixRData,alpha.variation=NULL, x=NULL,eta,probMask=NULL)
+Contact.generation <- function(alpha,times,matrixRData,alpha.variation=NULL, optim_v=NULL,eta,probMask=NULL)
 {
   
   load(matrixRData)
@@ -13,13 +13,13 @@ Contact.generation <- function(alpha,times,matrixRData,alpha.variation=NULL, x=N
     if( i  != 0 )
     {
       AL_tmp<-alpha[[i]]
-
-      if(!is.null(x)){
-         if( i == 2) AL_tmp<-list(S = rep(0,3), W = c( rep(x[7],3) ), O =  rep(x[8],3) )
-         if( i == 3){
-             AL_tmp<-list(S = rep(0,3), W = c( rep(x[9],3) ), O = rep(x[10],3)  )
-         }
-          
+      
+      if(!is.null(optim_v)){
+        if( i == 2) AL_tmp<-list(S = rep(0,3), W = c( rep(optim_v[7],3) ), O =  rep(optim_v[8],3) )
+        if( i == 3){
+          AL_tmp<-list(S = rep(0,3), W = c( rep(optim_v[9],3) ), O = rep(optim_v[10],3)  )
+        }
+        
       }
       
       if(!is.null(AL_tmp$S) ) Ms= diag(AL_tmp$S) %*% Ms
@@ -67,9 +67,9 @@ Contact.generation <- function(alpha,times,matrixRData,alpha.variation=NULL, x=N
       M_hospital = Mo*(1-eta[3])
     }
     
-      C[i+1,]<-c( 0,t, c(t(M)) )
-      C_q[i+1,]<-c(1, t, c(t(M_quarantine)) )
-      C_h[i+1,]<-c(2, t, c(t(M_hospital)) )
+    C[i+1,]<-c( 0,t, c(t(M)) )
+    C_q[i+1,]<-c(1, t, c(t(M_quarantine)) )
+    C_h[i+1,]<-c(2, t, c(t(M_hospital)) )
     #save(Mall,Mh,Mo,Ms,Mw,file=paste0("MatrixTime",i,".RData"))
   }
   Ctot<-rbind(C,C_q,C_h)
@@ -78,7 +78,7 @@ Contact.generation <- function(alpha,times,matrixRData,alpha.variation=NULL, x=N
   return(Ctot)
 }
 
-init_m <- function(n_file, x=NULL,perc.undetected=NULL)
+init_m <- function(n_file, optim_v=NULL,perc.undetected=NULL)
 {
   yini.names <- readRDS(n_file)
   
@@ -89,9 +89,9 @@ init_m <- function(n_file, x=NULL,perc.undetected=NULL)
   yini["s_a0"]<-733130 
   yini["s_a1"]<-2780600
   yini["s_a2"]<-842676
-  if (!is.null(x))
+  if (!is.null(optim_v))
   {
-    yini[c("i_a1_s1")]<-x[11]
+    yini[c("i_a1_s1")]<-optim_v[11]
   }else{
     yini[c("i_a1_s1")]<-1
   }
@@ -99,9 +99,9 @@ init_m <- function(n_file, x=NULL,perc.undetected=NULL)
   if(perc.undetected =="1:1"){
     Ntot<-yini["s_a0"]+yini["s_a1"]+yini["s_a2"]
     
-    yini["i_a0_s0"]<- x[12]*yini["s_a0"]/Ntot
-    yini["i_a1_s0"]<- x[12]*yini["s_a1"]/Ntot
-    yini["i_a2_s0"]<- x[12]*yini["s_a2"]/Ntot
+    yini["i_a0_s0"]<- optim_v[12]*yini["s_a0"]/Ntot
+    yini["i_a1_s0"]<- optim_v[12]*yini["s_a1"]/Ntot
+    yini["i_a2_s0"]<- optim_v[12]*yini["s_a2"]/Ntot
     
   }else if(perc.undetected =="1:1.5")
   {
@@ -117,12 +117,12 @@ init_m <- function(n_file, x=NULL,perc.undetected=NULL)
 }
 
 
-Death<-function(n,x=NULL)
+Death<-function(n,optim_v=NULL)
 {
-  if(!is.null(x))
+  if(!is.null(optim_v))
   {
-    if(n==1){d=x[4]}# 2
-    if(n==2){d=x[5]}# 3
+    if(n==1){d=optim_v[4]}# 2
+    if(n==2){d=optim_v[5]}# 3
   }
   else{
     if(n==1){d=runif(1,min=.001, max=.2) }
@@ -132,10 +132,10 @@ Death<-function(n,x=NULL)
   return(d)
 }
 
-k_calib<-function(min=400,max=1200,x=NULL){
-  if(!is.null(x))
+k_calib<-function(min=400,max=1200,optim_v=NULL){
+  if(!is.null(optim_v))
   {
-    k=x[6] # 4
+    k=optim_v[6] # 4
   }
   else{
     k= runif(min=min,max=max,n=1)
@@ -143,10 +143,10 @@ k_calib<-function(min=400,max=1200,x=NULL){
   return(k) ##non ha senso ora
 }
 
-beta.generation<-function(min=0,max=1,x=NULL){
-  if(!is.null(x))
+beta.generation<-function(min=0,max=1,optim_v=NULL){
+  if(!is.null(optim_v))
   {
-    b=x[1:3]
+    b=optim_v[1:3]
   }
   else{
     b= runif(n=3,min,max)
@@ -154,7 +154,7 @@ beta.generation<-function(min=0,max=1,x=NULL){
   return(matrix(b, nrow = 1))
 }
 
-l.generation<-function(age,sy,p,x=NULL)
+l.generation<-function(age,sy,p,optim_v=NULL)
 {
   prob<-matrix(c(p,1-p,1-p),ncol=3)
   colnames(prob) = paste0("s",0:2)
@@ -172,19 +172,19 @@ l.generation<-function(age,sy,p,x=NULL)
   return(l)
 }
 
-SW.generation=function(time.activation = NULL,x=NULL)
+SW.generation=function(time.activation = NULL,optim_v=NULL)
 {
   rate = matrix(0,ncol=365,nrow = 3)
- 
-  if(!is.null(x))
+  
+  if(!is.null(optim_v))
   {
     # from 01/04 to 04/05 there is detection in a2
-    # rate[ 3, 41 : 74 ] <- x[length(x)]  
-    rate[ 3, 41 : 365 ] <- x[length(x)]  
+    # rate[ 3, 41 : 74 ] <- optim_v[length(optim_v)]  
+    rate[ 3, 41 : 365 ] <- optim_v[length(optim_v)]  
   }else{
     rate[ 3, 41 : 74 ] <- runif(1,0,1)
   }
-    
+  
   if(!is.null(time.activation))
   {
     for(i in 1: length(time.activation))
@@ -204,5 +204,5 @@ SW.generation=function(time.activation = NULL,x=NULL)
   }
   
   return(rate)
-
+  
 }

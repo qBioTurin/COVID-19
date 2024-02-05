@@ -2,7 +2,7 @@ library(cowplot)
 library(ggplot2)
 library(ggthemes)
 
-trace=as.data.frame(read.csv( "./results_model_analysis/COVID-19Piemonte-analysys-1.trace", sep = ""))
+trace=as.data.frame(read.csv( "./COVID-19Piemonte_analysis/COVID-19Piemonte-analysis-1.trace", sep = ""))
 #trace=as.data.frame(read.csv( "./results_model_calibration/COVID-19Piemonte-calibration-49367.trace", sep = ""))
 trace$Time<-seq(as.Date("2020/02/21"), by = "day", length.out = length(trace$Time))
 reference <- as.data.frame(t(read.csv("input/reference.csv",

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- This project file has been saved by the New GreatSPN Editor, v.100 --><project name="COVID-19" version="121">
-  <gspn name="COVID-19" show-fluid-cmd="false">
+  <gspn name="COVID-19" show-fluid-cmd="false" zoom="150">
     <nodes>
       <place domain="Age" label-y="-2.0" name="s" x="9.0" y="19.0"/>
       <place domain="Age" label-x="-1.0" label-y="-2.0" name="e" x="19.0" y="19.0"/>
@@ -11,7 +11,7 @@
       <place domain="Age" name="c_Lq" x="29.0" y="22.0"/>
       <place domain="Age" name="c_Lu" x="29.0" y="17.0"/>
       <place domain="Age" name="c_Lh" x="29.0" y="27.0"/>
-      <transition delay="FN:C" name="C" type="GEN" x="24.55" y="14.0"/>
+      <transition delay="Call[&quot;C&quot;]" name="C" nservers-x="0.5" type="EXP" x="24.55" y="14.0"/>
       <transition delay="mu" delay-y="0.5" guard="sy in asymptomatic" name="Lu" nservers-x="0.5" type="EXP" x="34.55" y="19.0"/>
       <transition delay="mu" delay-y="0.5" guard="sy in isolation" name="Lq" nservers-x="0.5" type="EXP" x="34.55" y="24.0"/>
       <transition delay="mu" delay-y="0.5" guard="sy in hospitalisation" name="Lh" nservers-x="0.5" type="EXP" x="34.55" y="29.0"/>
@@ -36,7 +36,7 @@
       <transition delay="phi" name="H" nservers-x="0.5" type="EXP" x="34.55" y="34.0"/>
       <place domain="Age" name="c_H" x="29.0" y="32.0"/>
       <constant consttype="REAL" name="phi" value="0.001826484" x="126.1875" y="11.0"/>
-      <transition delay="FN:SW" delay-x="1.0" delay-y="0.0" guard="sy in s0" guard-x="2.0" guard-y="1.0" name="SW" rotation="0.5235987755982988" type="GEN" x="49.55" y="24.0"/>
+      <transition delay="Call[&quot;SW&quot;]" delay-x="1.0" delay-y="0.0" guard="sy in s0" guard-x="2.0" guard-y="1.0" name="SW" nservers-x="0.5" rotation="0.5235987755982988" type="EXP" x="49.55" y="24.0"/>
       <constant consttype="REAL" name="sigma" value="0.0" x="114.1875" y="20.0"/>
       <transition delay="zeta" name="O" nservers-x="0.5" type="EXP" x="64.55" y="9.0"/>
       <place name="d_w" x="59.0" y="9.0"/>
