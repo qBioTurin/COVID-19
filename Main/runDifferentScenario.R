@@ -8,7 +8,7 @@ optim<-c(0.0095,0.08,0.285,
 
 ############## Scenario 2
 #### work open
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -22,14 +22,14 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2"
 folder = "results_model_analysisScenario2"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
 #source("R_func/Rt_calculation.R")
 ############## Scenario 2 probMask
 #### work open
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -43,11 +43,11 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2probMask2"
 folder = "results_model_analysisScenario2probMask2"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 #source("R_func/Rt_calculation.R")
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -61,10 +61,10 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2probMask4"
 folder = "results_model_analysisScenario2probMask4"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -78,14 +78,14 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2probMask6"
 folder = "results_model_analysisScenario2probMask6"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
 ############## Scenario 2 detection
 #### work open
 
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -99,11 +99,11 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection1"
 folder = "results_model_analysisScenario2detection1"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 #source("R_func/Rt_calculation.R")
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -117,11 +117,11 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection2"
 folder = "results_model_analysisScenario2detection2"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -135,7 +135,7 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection3"
 folder = "results_model_analysisScenario2detection3"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
 
@@ -143,7 +143,7 @@ system(paste('mv',
 #### work open
 
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -157,10 +157,10 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection1ProbMask2"
 folder = "results_model_analysisScenario2detection1ProbMask2"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -174,10 +174,10 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection1ProbMask4"
 folder = "results_model_analysisScenario2detection1ProbMask4"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -191,10 +191,10 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection2ProbMask2"
 folder = "results_model_analysisScenario2detection2ProbMask2"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -208,12 +208,12 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection2ProbMask4"
 folder = "results_model_analysisScenario2detection2ProbMask4"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
 
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -227,10 +227,10 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection2ProbMask6"
 folder = "results_model_analysisScenario2detection2ProbMask6"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -244,10 +244,10 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection1ProbMask6"
 folder = "results_model_analysisScenario2detection1ProbMask6"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -261,10 +261,10 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection3ProbMask2"
 folder = "results_model_analysisScenario2detection3ProbMask2"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -278,10 +278,10 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection3ProbMask4"
 folder = "results_model_analysisScenario2detection3ProbMask4"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
-model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
                solver_type = "TAUG",taueps = .001,
@@ -295,5 +295,5 @@ model_analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 nameplot="Scenario2detection3ProbMask6"
 folder = "results_model_analysisScenario2detection3ProbMask6"
 system(paste('mv', 
-             sprintf("results_model_analysis"),
+             sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
