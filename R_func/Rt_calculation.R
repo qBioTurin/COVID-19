@@ -1,12 +1,13 @@
-source('~/R_func/ReadingData/Rtfunction.R')
+source('./R_func/ReadingData/Rtfunction.R')
 
 trace=as.data.frame(read.csv( paste0("./",folder,"/COVID-19Piemonte-analysys-1.trace"), sep = ""))
 
-trace$c_Lq_a0  <- trace$c_SW_a0 + trace$c_Lq_a0 
-# trace$c_Lu_a0  <- trace$c_Lu_a0 - trace$c_SW_a0 
-trace$c_Lq_a1  <- trace$c_SW_a1 + trace$c_Lq_a1 
+
+trace$c_Lq_a0  <- trace$c_SW_a0 + trace$c_Lq_a0
+# trace$c_Lu_a0  <- trace$c_Lu_a0 - trace$c_SW_a0
+trace$c_Lq_a1  <- trace$c_SW_a1 + trace$c_Lq_a1
 # trace$c_Lu_a1  <- trace$c_Lu_a1 - trace$c_SW_a1
-trace$c_Lq_a2  <- trace$c_SW_a2 + trace$c_Lq_a2 
+trace$c_Lq_a2  <- trace$c_SW_a2 + trace$c_Lq_a2
 # trace$c_Lu_a2  <- trace$c_Lu_a2 - trace$c_SW_a2
 
 age_classes<-3
@@ -33,13 +34,13 @@ data<-lapply(1:length(l2), function(ii){
     if(length(ltemp)==1){
       trace[which(trace$Time==k),ltemp]}
     else{rowSums( trace[which(trace$Time==k),ltemp] ) }
-  }) 
-  
+  })
+
   m<-apply(sim_traces_tmp,2,median)
-  
+
   Idiff=c(m[1], diff(m,lag = 1) )
   data.frame(Time = unique(trace$Time) ,I=m,Idiff=Idiff)
-  
+
 })
 
 dataGG<-do.call("rbind",data)

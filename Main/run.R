@@ -8,7 +8,7 @@ library(epimod)
 #### Second Step: generate the solver of the Petri Net representing the COVID19 model
 # saved in COVID-19Piemonte.PNPRO
 
-model.generation(net_fname = "net/COVID-19Piemonte.PNPRO", 
+model.generation(net_fname = "net/COVID-19Piemonte.PNPRO",
                  transitions_fname = "cpp/transitions.cpp")
 
 #### Third Step: run the calibration phase in order to estimate an optimal parameter configuration
@@ -24,10 +24,10 @@ model.generation(net_fname = "net/COVID-19Piemonte.PNPRO",
 
 ##The calibration is optional, we already have the best parameters
 
-#optimStart<-c( 0.0085, 0.086,0.285, 
+#optimStart<-c( 0.0085, 0.086,0.285,
 #              0.024,0.28,
 #               50,
-#               0.7,0.6,0.4,0.2, 
+#               0.7,0.6,0.4,0.2,
 #               4,90,0.1)
 
 #Lb<-c( 0.005, 0.05,0.1,
@@ -56,7 +56,7 @@ model.generation(net_fname = "net/COVID-19Piemonte.PNPRO",
 #                  ub= Ub )
 
 #####################################################################
-##### Here we exploit te best configuration discovered to solve the 
+##### Here we exploit te best configuration discovered to solve the
 ##### system of ODEs corresponding to the model.
 
 optim<-c(0.0095,0.08,0.285,
@@ -74,6 +74,33 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                functions_fname = "R_func/Functions.R",
                ini_v = optim,
                ini_vector_mod = TRUE)
+
+#scrivere sui plot la percentuale di aumento o diminuzione dei casi all fine dei 90 giorni
+
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+							 f_time = 90,
+							 s_time = 1,
+							 n_config = 1,
+							 parameters_fname = "input/experiment_f4f_paper/plist_noRestriction.csv",
+							 functions_fname = "R_func/Functions.R",
+							 ini_v = optim,
+							 ini_vector_mod = TRUE)
+
+model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+							 f_time = 90,
+							 s_time = 1,
+							 n_config = 1,
+							 parameters_fname = "input/experiment_f4f_paper/plist_percprobmask_ffp2_20.csv",
+							 functions_fname = "R_func/Functions.R",
+							 ini_v = optim,
+							 ini_vector_mod = TRUE)
+
+
+
+
+
+
+
 
 # Automatically the plots regarding the Infected individuals and deaths
 # are generated
@@ -105,7 +132,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                ini_vector_mod = TRUE)
 
 folder = "results_model_analysisStochEstimated"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -129,7 +156,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                ini_vector_mod = TRUE)
 
 folder = "results_model_analysisStochWorst"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -153,7 +180,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                ini_vector_mod = TRUE)
 
 folder = "results_model_analysisStochBest"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -182,10 +209,10 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario1"
 folder = "results_model_analysisScenario1"
-system(paste('mv', 
+system(paste('mv',
             sprintf("COVID-19Piemonte_analysis"),
             sprintf(folder)) )
-      
+
 source("R_func/plot/StochComulativeInfects.R")
 source("R_func/plot/Plot_StochDiff.R")
 

@@ -19,33 +19,43 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                ini_v = optim,
                ini_vector_mod = TRUE)
 
-nameplot="Scenario2"
-folder = "results_model_analysisScenario2"
-system(paste('mv', 
+nameplot="Scenario2_prova"
+folder = "results_model_analysisScenario2_prova"
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
+install.packages("earlyR")
+
 #source("R_func/Rt_calculation.R")
+
 ############## Scenario 2 probMask
 #### work open
 
-model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
+model.analysis(solver_fname =  "./COVID-19Piemonte.solver",
                f_time = 190,
                s_time = 1,
-               solver_type = "TAUG",taueps = .001,
-               n_run = 5000,
+               #solver_type = "TAUG",taueps = .001,
+               #n_run = 5000,
                parallel_processors = 20,
+							 n_config = 1,
                parameters_fname = "input/plistScenario2probMask2.csv",
                functions_fname = "R_func/Functions.R",
                ini_v = optim,
-               ini_vector_mod = TRUE)
+               ini_vector_mod = TRUE,
+							 debug = TRUE)
 
-nameplot="Scenario2probMask2"
-folder = "results_model_analysisScenario2probMask2"
-system(paste('mv', 
+nameplot="Scenario2probMask2_home"
+folder = "results_model_analysisScenario2probMask2_home"
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
+
+source('./R_func/plot/PlotModelAnalysis.R')
+
 #source("R_func/Rt_calculation.R")
+
+install.packages("sodium")
 
 model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
                f_time = 190,
@@ -60,7 +70,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2probMask4"
 folder = "results_model_analysisScenario2probMask4"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -77,7 +87,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2probMask6"
 folder = "results_model_analysisScenario2probMask6"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -98,7 +108,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection1"
 folder = "results_model_analysisScenario2detection1"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 #source("R_func/Rt_calculation.R")
@@ -116,7 +126,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection2"
 folder = "results_model_analysisScenario2detection2"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -134,7 +144,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection3"
 folder = "results_model_analysisScenario2detection3"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -156,7 +166,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection1ProbMask2"
 folder = "results_model_analysisScenario2detection1ProbMask2"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -173,7 +183,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection1ProbMask4"
 folder = "results_model_analysisScenario2detection1ProbMask4"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -190,7 +200,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection2ProbMask2"
 folder = "results_model_analysisScenario2detection2ProbMask2"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -207,7 +217,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection2ProbMask4"
 folder = "results_model_analysisScenario2detection2ProbMask4"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -226,7 +236,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection2ProbMask6"
 folder = "results_model_analysisScenario2detection2ProbMask6"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -243,7 +253,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection1ProbMask6"
 folder = "results_model_analysisScenario2detection1ProbMask6"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -260,7 +270,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection3ProbMask2"
 folder = "results_model_analysisScenario2detection3ProbMask2"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -277,7 +287,7 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection3ProbMask4"
 folder = "results_model_analysisScenario2detection3ProbMask4"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )
 
@@ -294,6 +304,6 @@ model.analysis(solver_fname =  "./net/COVID-19Piemonte.solver",
 
 nameplot="Scenario2detection3ProbMask6"
 folder = "results_model_analysisScenario2detection3ProbMask6"
-system(paste('mv', 
+system(paste('mv',
              sprintf("COVID-19Piemonte_analysis"),
              sprintf(folder)) )

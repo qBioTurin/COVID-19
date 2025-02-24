@@ -3,15 +3,14 @@ library(ggplot2)
 library(ggthemes)
 
 trace=as.data.frame(read.csv( "./COVID-19Piemonte_analysis/COVID-19Piemonte-analysis-1.trace", sep = ""))
-#trace=as.data.frame(read.csv( "./results_model_calibration/COVID-19Piemonte-calibration-49367.trace", sep = ""))
 trace$Time<-seq(as.Date("2020/02/21"), by = "day", length.out = length(trace$Time))
 reference <- as.data.frame(t(read.csv("input/reference.csv",
                                       header = FALSE,
                                       sep = "")))
 
 
-trace$c_Lq_a2  <- trace$c_SW_a2 + trace$c_Lq_a2 
-# trace$c_Lu_a2  <- trace$c_Lu_a2 - trace$c_SW_a2 
+trace$c_Lq_a2  <- trace$c_SW_a2 + trace$c_Lq_a2
+# trace$c_Lu_a2  <- trace$c_Lu_a2 - trace$c_SW_a2
 
 
 age_classes<-3
@@ -43,18 +42,18 @@ AgesNames=c("0-19 years old","20-69 years old","70++ years old","Comulative")
 reference_big_hist<- lapply(1:(age_classes+1), function(j){
   data.frame(Time=reference$Time,I=reference[,j+1],Ages=AgesNames[j])
 })
-reference_big_hist<-do.call("rbind",reference_big_hist)  
+reference_big_hist<-do.call("rbind",reference_big_hist)
 
 l2<-list("c_Lu_a0","c_Lq_a0","c_Lh_a0","c_Lu_a1","c_Lq_a1","c_Lh_a1","c_Lu_a2","c_Lq_a2","c_Lh_a2",c(paste0("c_Lu_a",0:(age_classes-1))), c( paste0("c_Lq_a",0:(age_classes-1))),c( paste0("c_Lh_a",0:(age_classes-1)) ) )
 
 Idiff=lapply(1:length(l2), function(i){
-  
+
   if(length(l2[[i]])>1){
     Trace_plot<-rowSums(trace[, l2[[i]] ])
   }else{
-    Trace_plot<-trace[, l2[[i]] ] 
+    Trace_plot<-trace[, l2[[i]] ]
   }
-  
+
   c(Trace_plot[1], diff(Trace_plot,lag = 1) )
 })
 Idiff=unlist(Idiff)
@@ -67,7 +66,7 @@ Trace_big_hist <- data.frame( Time = rep(trace$Time, length(l[[(age_classes+1)]]
                             Ages=rep(AgesNames,each=length(trace$Time)*3) )
 
 
-Detect <- data.frame( Time = rep(trace$Time, length(ldetect) ), 
+Detect <- data.frame( Time = rep(trace$Time, length(ldetect) ),
                       Det = c(unlist(trace[, ldetect[[4]] ]), rowSums(trace[, ldetect[[4]] ] ) ),
                       Ages=rep(AgesNames,each=length(trace$Time)) )
 ###################################
@@ -147,7 +146,7 @@ HIST<- ggplot(data=Trace_big_hist[which(Trace_big_hist$Ages == "Comulative"),],
         legend.key.width = unit(.9,"cm"),
         panel.background = element_rect(colour = NA),
         plot.background = element_rect(colour = NA),
-        plot.margin=unit(c(0,5,5,5),"mm"), 
+        plot.margin=unit(c(0,5,5,5),"mm"),
         strip.background = element_blank(),
         strip.text.x = element_blank() )+
   labs(x="Days", y="Comulative infected cases" )+
@@ -167,7 +166,7 @@ HIST<- ggplot(data=Trace_big_hist[which(Trace_big_hist$Ages == "Comulative"),],
 reference_big_hist_d<- lapply(1:(age_classes), function(j){
   data.frame(Time=reference$Time,D=reference[,j+(age_classes+2)],Ages=AgesNames[j+1])
 })
-reference_big_hist_d<-do.call("rbind",reference_big_hist_d)  
+reference_big_hist_d<-do.call("rbind",reference_big_hist_d)
 
 Trace_big_histD<-data.frame( Time = rep(trace$Time, length(d)+1 ),
                              D = c(unlist(trace[, d ]), rowSums(trace[, d] ) ),
@@ -204,7 +203,7 @@ BIGHIST_d<-BIGHIST_d+
         plot.margin=unit(c(10,5,5,5),"mm"),
         strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
         strip.text = element_text(face="bold",size = 15))+
-  labs(x="Days", y= "Deaths",title = "" ) +  theme(legend.position = "bottom") 
+  labs(x="Days", y= "Deaths",title = "" ) +  theme(legend.position = "bottom")
 
 ggsave(plot = BIGHIST_d,filename = "Plot/DeathsHistALL.pdf",
        dpi = 400, width = 30, height = 10,device = "pdf")
@@ -239,7 +238,7 @@ HIST_d<-ggplot(data=Trace_big_histD[which(Trace_big_histD$Ages == "Comulative"),
         legend.key.width = unit(.9,"cm"),
         panel.background = element_rect(colour = NA),
         plot.background = element_rect(colour = NA),
-        plot.margin=unit(c(0,5,5,5),"mm"), 
+        plot.margin=unit(c(0,5,5,5),"mm"),
         strip.background = element_blank(),
         strip.text.x = element_blank() )+
   labs(x="Days", y="Deaths" )+
@@ -280,7 +279,7 @@ plLINES<- ggplot(data=Trace_big_hist,
         legend.key.width = unit(.9,"cm"),
         panel.background = element_rect(colour = NA),
         plot.background = element_rect(colour = NA),
-        plot.margin=unit(c(0,5,5,5),"mm"), 
+        plot.margin=unit(c(0,5,5,5),"mm"),
         strip.background = element_blank(),
         strip.text.x = element_blank() )+
   labs(x="Days", y="Infected cases" )+
@@ -324,7 +323,7 @@ plLINESzoomed<- ggplot( )+
         legend.key.width = unit(.9,"cm"),
         panel.background = element_rect(colour = NA),
         plot.background = element_rect(colour = NA),
-        plot.margin=unit(c(0,5,5,5),"mm"), 
+        plot.margin=unit(c(0,5,5,5),"mm"),
         strip.background = element_blank(),
         strip.text.x = element_blank() )+
   labs(x="Days", y="Infected cases" )+
